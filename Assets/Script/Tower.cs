@@ -2,11 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Tower : MonoBehaviour, Unit
+public abstract class Tower : Unit
 {
-    [SerializeField]
-    private float power = 0;
-
     // Start is called before the first frame update
     void Start()
     {
