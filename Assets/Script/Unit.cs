@@ -11,5 +11,7 @@ public abstract class Unit : MonoBehaviour
     [SerializeField] protected float speed { get; }
     [SerializeField] protected float attackSpeed { get;}
 
+    [SerializeField] protected bool isRightTeam { get; }
+
     [SerializeField] protected StateController stateController;
 }

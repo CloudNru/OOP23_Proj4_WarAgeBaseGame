@@ -4,74 +4,54 @@ using UnityEngine;
 
 public class StudentStateControler : StateController
 {
-    private const ushort Stay = 0;
-    private const ushort Walk = 1;
-    private const ushort Attack = 2;
-    private const ushort Dead = 3;
+    protected const int stayState = 0;
+    protected const int walkState = 1;
+    protected const int attackState = 2;
 
     public StudentStateControler()
     {
-        stateList = new State[4];
-        stateList[Stay] = new StayState();
-        stateList[Walk] = new WalkState();
-        stateList[Attack] = new AttackState();
-        stateList[Dead] = new DeadState();
+        LinkList = new GenericArrayList<List<StateLink>>();
+
+        AddState(new StayState());
+        AddState(new WalkState());
+        AddState(new AttackState());
+
+        AddFlag("isDead");
+        AddFlag("isDetectEnemy");
+
+        AddLink(stayState, walkState);
+        AddLink(walkState, attackState, ("isDetectEnemy", true));
+        AddLink(attackState, walkState, ("isDetectEnemy", false));
     }
 
-    public override void changeState(bool detectEnemy, bool detectFriedly, bool dead)
-    {
-        if (isDead)
-        {
-            index = Dead;
-            return;
-        }
-
-        switch (index)
-        {
-            case Stay:
-                if (!isDetectEnemy)
-                {
-                    index = Walk;
-                }
-                else
-                {
-                    index = Attack;
-                }
-                break;
-
-            case Walk:
-                if (isDetectEnemy)
-                {
-                    index = Attack;
-                }
-                break;
-
-            case Attack:
-                if (!isDetectEnemy)
-                {
-                    index = Walk;
-                }
-                break;
-        }
-    }
     protected class StayState : State
     {
+        public StayState() { }
     }
 
     protected class WalkState : State
     {
+        public WalkState() { }
+
         public override void Update(Unit obj)
         {
             base.Update(obj);
-            obj.transform.position += new Vector3(0, 1, 1);
+            obj.transform.position += new Vector3(Random.Range(-2.0f, 2.0f), 0, 0);
         }
     }
 
     protected class AttackState : State
     {
-    }
+        public override void Enter(Unit obj)
+        {
+            base.Enter(obj);
+            obj.GetComponent<SpriteRenderer>().color = Color.red;
+        }
 
-    protected class DeadState : State
-    {
+        public override void Exit(Unit obj)
+        {
+            base.Exit(obj);
+            obj.GetComponent<SpriteRenderer>().color = Color.white;
+        }
     }
 }

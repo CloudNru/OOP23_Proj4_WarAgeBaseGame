@@ -4,42 +4,29 @@ using UnityEngine;
 
 public class Monster : Unit
 {
-    bool detectEnemy; 
-    bool detectFriedly;
-    bool dead;
+    private bool tmp = false;
 
     public void set(StateController controller)
     {
-        stateController = controller;
+        this.stateController = controller;
+        this.stateController.setUnit(this);
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        detectEnemy = false;
-        detectFriedly = false;
-        dead = false;
+        stateController.SetFlag("isDead", false);
     }
 
     // Update is called once per frame
     void Update()
     {
-        stateController.changeState(detectEnemy, detectFriedly, dead);
-        stateController.Updeate(this);
-
-        detectEnemy = false;
-        detectFriedly = false;
-    }
-
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        if(collision.tag == "Enemy")
+        if(Random.Range(0,1000) < 1)
         {
-            detectEnemy = true;
+            tmp = !tmp;
+            this.stateController.SetFlag("isDetectEnemy", tmp);
         }
-        else if(collision.tag == "Friendly")
-        {
-            detectFriedly = true;
-        }
+
+        this.stateController.Update();
     }
 }
