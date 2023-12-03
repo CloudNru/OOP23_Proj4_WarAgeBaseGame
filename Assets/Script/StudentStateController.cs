@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class StudentStateControler : StateController
 {
-    protected const int stayState = 0;
-    protected const int walkState = 1;
-    protected const int attackState = 2;
+    public const int stayState = 0;
+    public const int walkState = 1;
+    public const int attackState = 2;
 
     public StudentStateControler()
     {
@@ -24,34 +24,28 @@ public class StudentStateControler : StateController
         AddLink(attackState, walkState, ("isDetectEnemy", false));
     }
 
-    protected class StayState : State
+    public StudentStateControler(Unit unit)
     {
-        public StayState() { }
+        AddState(new StayState());
+        AddState(new WalkState());
+        AddState(new AttackState());
+
+        StateLinkUpdateAction(walkState, unit.Walk);
+        StateLinkUpdateAction(attackState, unit.Attack);
+
+        AddFlag("isDead");
+        AddFlag("isDetectEnemy");
+
+        AddLink(stayState, walkState);
+        AddLink(walkState, attackState, ("isDetectEnemy", true));
+        AddLink(attackState, walkState, ("isDetectEnemy", false));
     }
 
-    protected class WalkState : State
-    {
-        public WalkState() { }
+    
 
-        public override void Update(Unit obj)
-        {
-            base.Update(obj);
-            obj.transform.position += new Vector3(Random.Range(-2.0f, 2.0f), 0, 0);
-        }
-    }
+    protected class StayState : State { }
 
-    protected class AttackState : State
-    {
-        public override void Enter(Unit obj)
-        {
-            base.Enter(obj);
-            obj.GetComponent<SpriteRenderer>().color = Color.red;
-        }
+    protected class WalkState : State { }
 
-        public override void Exit(Unit obj)
-        {
-            base.Exit(obj);
-            obj.GetComponent<SpriteRenderer>().color = Color.white;
-        }
-    }
+    protected class AttackState : State { }
 }

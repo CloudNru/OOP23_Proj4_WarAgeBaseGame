@@ -14,19 +14,20 @@ public class UnitFactory : MonoBehaviour
     private void Start()
     {
         unitBaseObject = PrefabUtility.LoadPrefabContents("Assets/Prefab/UnitBase.prefab");
-        CreateMonster("", Vector3.zero);
+        CreateMonster("", new Vector3(5, 0, 0), true);
+        CreateMonster("", new Vector3(-5, 0, 0), false);
     }
 
-    public GameObject CreateMonster(string name)
+    public GameObject CreateMonster(string name, bool isRightTeam)
     {
-        
-        return CreateMonster(name, Vector3.zero);        
+        return CreateMonster(name, Vector3.zero, isRightTeam);        
     }
 
-    public GameObject CreateMonster(string name, Vector3 position)
+    public GameObject CreateMonster(string name, Vector3 position, bool isRightTeam)
     {
         GameObject obj = Instantiate(unitBaseObject, position, Quaternion.Euler(position));
-        obj.AddComponent<Monster>().set(new StudentStateControler());
+        Monster monster = obj.AddComponent<Monster>();
+        monster.set(new UnitInfo(isRightTeam), new StudentStateControler(monster));
         obj.SetActive(true);
         return obj;
     }

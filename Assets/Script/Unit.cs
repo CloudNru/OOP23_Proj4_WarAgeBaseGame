@@ -4,14 +4,21 @@ using UnityEngine;
 
 public abstract class Unit : MonoBehaviour
 {
-    [SerializeField] protected int power { get; }
-    [SerializeField] protected int MaxHp { get; }
-    [SerializeField] protected int hp { get; }
-    [SerializeField] protected float attackRange { get; }
-    [SerializeField] protected float speed { get; }
-    [SerializeField] protected float attackSpeed { get;}
+    [SerializeField] protected UnitInfo unitInfo;
 
-    [SerializeField] protected bool isRightTeam { get; }
-
+    [SerializeField] protected Unit target;
     [SerializeField] protected StateController stateController;
+
+    public virtual void Attack()
+    {
+        if(target != null)
+        {
+            target.unitInfo.getDamage(this.unitInfo.getPower());
+        }
+    }
+
+    public virtual void Walk()
+    {
+        this.transform.position += new Vector3((unitInfo.getIsRightTeam() ? -1 : 1) * unitInfo.getSpeed(), 0, 0) * Time.deltaTime;
+    }
 }

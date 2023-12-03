@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
@@ -6,32 +7,37 @@ using UnityEngine;
 
 public abstract class StateController
 {
-    private Unit unit;
     protected GenericArrayList<State> stateList = new GenericArrayList<State>();
     private Dictionary<string, bool> flag = new Dictionary<string, bool>();
-    protected GenericArrayList<List<StateLink>> LinkList;
+    protected GenericArrayList<List<StateLink>> LinkList = new GenericArrayList<List<StateLink>>();
     protected ushort index = 0;
+    private bool controllerActive;
 
-    public void setUnit(Unit unit)
+    public StateController()
     {
-        this.unit = unit;
+        controllerActive = true;
     }
 
     public void Update()
     {
-        stateList[index].Update(unit);
+        stateList[index].Update();
         changeState();
     }
 
     public void changeState()
     {
+        if (!controllerActive)
+        {
+            return;
+        }
+
         foreach (StateLink link in LinkList[index])
         {
             if (link.getKeys().Count == 0 || checkFlag(link))
             {
-                stateList[index].Exit(unit);
+                stateList[index].Exit();
                 this.index = link.getIndex();
-                stateList[index].Enter(unit);
+                stateList[index].Enter();
                 return;
             }
         }
@@ -91,9 +97,24 @@ public abstract class StateController
         return true;
     }
 
-    protected void AddLink(ushort startIndex, ushort goalIndex, params (string, bool)[] flagCondition)
+    public void AddLink(ushort startIndex, ushort goalIndex, params (string, bool)[] flagCondition)
     {
         LinkList[startIndex].Add(new StateLink(goalIndex, flagCondition));
+    }
+
+    public void StateLinkEnterAction(ushort stateIndex, Action action)
+    {
+        stateList[stateIndex].LinkEnterAction(action);
+    }
+
+    public void StateLinkUpdateAction(ushort stateIndex, Action action)
+    {
+        stateList[stateIndex].LinkUpdateAction(action);
+    }
+
+    public void StateLinkExitAction(ushort stateIndex, Action action)
+    {
+        stateList[stateIndex].LinkExitAction(action);
     }
 
     protected class StateLink
