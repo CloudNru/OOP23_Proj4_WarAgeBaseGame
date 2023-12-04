@@ -1,4 +1,4 @@
-BaseCamp:BaseCamp.png:1000:0:Near:0:0:0:0:0:0
-1학년:FirstStudent.png:100:10:far:1.5:1.0:5:50:75
-
-//이름:sprite명:체력:공격력:공격방식:공격범위:이동속도:공격속도:비용:보상:
+BaseCamp:Image.png:1000:0:Near:0:0:0:0:0
+FirstStudent:Image.png:100:10:far:1.5:1.0:5:50:75
+FirstStudent2:Image.png:100:10:far:1.5:1.0:5:50:75
+//이름:sprite명:체력:공격력:공격방식:공격범위:공격속도:이동속도:비용:보상

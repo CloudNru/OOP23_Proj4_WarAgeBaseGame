@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class State
+public class State
 {
     Action enterAction, updateAction, exitAction;
 

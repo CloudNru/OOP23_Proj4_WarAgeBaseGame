@@ -7,9 +7,9 @@ using UnityEngine;
 
 public abstract class StateController
 {
-    protected GenericArrayList<State> stateList = new GenericArrayList<State>();
+    protected List<State> stateList = new List<State>();
     private Dictionary<string, bool> flag = new Dictionary<string, bool>();
-    protected GenericArrayList<List<StateLink>> LinkList = new GenericArrayList<List<StateLink>>();
+    protected List<List<StateLink>> LinkList = new List<List<StateLink>>();
     protected ushort index = 0;
     private bool controllerActive;
 
@@ -43,6 +43,12 @@ public abstract class StateController
         }
     }
 
+    protected void AddState()
+    {
+        stateList.Add(new State());
+        LinkList.Add(new List<StateLink>());
+    }
+
     protected void AddState(State state)
     {
         stateList.Add(state);
@@ -51,12 +57,12 @@ public abstract class StateController
 
     protected void RemoveState(int index) 
     {
-        stateList.Remove(index);
+        stateList.RemoveAt(index);
     }
 
     protected void InsertState(int index, State state)
     {
-        stateList.insert(index, state);
+        stateList.Insert(index, state);
     }
 
     protected void AddFlag(string flagName)
@@ -100,6 +106,13 @@ public abstract class StateController
     public void AddLink(ushort startIndex, ushort goalIndex, params (string, bool)[] flagCondition)
     {
         LinkList[startIndex].Add(new StateLink(goalIndex, flagCondition));
+        foreach((string, bool) tmp in flagCondition)
+        {
+            if (!flag.ContainsKey(tmp.Item1))
+            {
+                flag.Add(tmp.Item1, false);
+            }
+        }
     }
 
     public void StateLinkEnterAction(ushort stateIndex, Action action)

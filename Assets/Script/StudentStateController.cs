@@ -10,14 +10,11 @@ public class StudentStateControler : StateController
 
     public StudentStateControler()
     {
-        LinkList = new GenericArrayList<List<StateLink>>();
 
-        AddState(new StayState());
-        AddState(new WalkState());
-        AddState(new AttackState());
+        AddState(); AddState(); AddState();
 
-        AddFlag("isDead");
-        AddFlag("isDetectEnemy");
+        //AddFlag("isDead");
+        //AddFlag("isDetectEnemy");
 
         AddLink(stayState, walkState);
         AddLink(walkState, attackState, ("isDetectEnemy", true));
@@ -26,26 +23,16 @@ public class StudentStateControler : StateController
 
     public StudentStateControler(Unit unit)
     {
-        AddState(new StayState());
-        AddState(new WalkState());
-        AddState(new AttackState());
+        AddState(); AddState(); AddState();
 
         StateLinkUpdateAction(walkState, unit.Walk);
         StateLinkUpdateAction(attackState, unit.Attack);
 
-        AddFlag("isDead");
-        AddFlag("isDetectEnemy");
+        //AddFlag("isDead");
+        //AddFlag("isDetectEnemy");
 
         AddLink(stayState, walkState);
         AddLink(walkState, attackState, ("isDetectEnemy", true));
         AddLink(attackState, walkState, ("isDetectEnemy", false));
     }
-
-    
-
-    protected class StayState : State { }
-
-    protected class WalkState : State { }
-
-    protected class AttackState : State { }
 }

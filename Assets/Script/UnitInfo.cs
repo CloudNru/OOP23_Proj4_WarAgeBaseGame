@@ -4,59 +4,42 @@ using UnityEngine;
 
 public class UnitInfo
 {
-    [SerializeField] private int power;
-    [SerializeField] private int MaxHp;
-    [SerializeField] private int hp;
-    [SerializeField] private float attackRange;
-    [SerializeField] private float speed;
-    [SerializeField] private float attackSpeed;
-    [SerializeField] private int giveCost;
-    [SerializeField] private bool isRightTeam;
+    public string name { get; }
+    public Sprite sprite { get; }
+    public int power { get; }
+    public int MaxHp { get; }
+    public bool isNear {  get; }
+    public float attackRange {  get; }
+    public float speed {  get; }
+    public float attackSpeed {  get; }
+    public int giveCost {  get; }
 
     public UnitInfo()
     {
         this.power = 1;
         this.MaxHp = 20;
-        this.hp = this.MaxHp;
         this.attackRange = 2;
         this.speed = 2;
         this.attackSpeed = 1;
         this.giveCost = 10;
-        this.isRightTeam = false;
     }
 
     public UnitInfo(bool isRightTeam) : this()
     {
-        this.isRightTeam = isRightTeam;
+
     }
 
-    public UnitInfo(int power, int maxHp, float attackRange, float speed, float attackSpeed, int giveCost, bool isRightTeam)
+    //이름:sprite명:체력:공격력:공격방식:공격범위:공격속도:이동속도:비용:보상:
+    public UnitInfo(string name, Sprite sprite, int maxHp, int power, bool isNear, float attackRange,float attackSpeed, float speed, int giveCost)
     {
-        this.power = power;
+        this.name = name;
+        this.sprite = sprite;
         this.MaxHp = maxHp;
-        this.hp = maxHp;
+        this.power = power;
+        this.isNear = isNear;
         this.attackRange = attackRange;
-        this.speed = speed;
         this.attackSpeed = attackSpeed;
+        this.speed = speed;
         this.giveCost = giveCost;
-        this.isRightTeam = isRightTeam;
-    }
-
-    public int getPower() { return power; }
-    public float getAttackRange() { return attackRange; }
-    public float getSpeed() { return speed; }
-    public float getAttackSpeed() { return attackSpeed; }
-    public int getGiveCost() {  return giveCost; }
-
-    public void setIsRightTeam(bool isRightTeam) {  this.isRightTeam = isRightTeam; }
-    public bool getIsRightTeam() {  return isRightTeam; }
-
-    public void getDamage(int damage)
-    {
-        if (damage < 0)
-            return;
-
-        this.hp -= damage;
-        this.hp = Mathf.Clamp(this.hp, 0, MaxHp);
     }
 }
