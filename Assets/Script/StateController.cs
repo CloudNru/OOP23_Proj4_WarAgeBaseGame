@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
@@ -6,35 +7,46 @@ using UnityEngine;
 
 public abstract class StateController
 {
-    private Unit unit;
-    protected GenericArrayList<State> stateList = new GenericArrayList<State>();
+    protected List<State> stateList = new List<State>();
     private Dictionary<string, bool> flag = new Dictionary<string, bool>();
-    protected GenericArrayList<List<StateLink>> LinkList;
+    protected List<List<StateLink>> LinkList = new List<List<StateLink>>();
     protected ushort index = 0;
+    private bool controllerActive;
 
-    public void setUnit(Unit unit)
+    public StateController()
     {
-        this.unit = unit;
+        controllerActive = true;
     }
 
     public void Update()
     {
-        stateList[index].Update(unit);
+        stateList[index].Update();
         changeState();
     }
 
     public void changeState()
     {
+        if (!controllerActive)
+        {
+            return;
+        }
+
         foreach (StateLink link in LinkList[index])
         {
             if (link.getKeys().Count == 0 || checkFlag(link))
             {
-                stateList[index].Exit(unit);
+                stateList[index].Exit();
                 this.index = link.getIndex();
-                stateList[index].Enter(unit);
+                stateList[index].Enter();
                 return;
             }
         }
+    }
+
+    protected void AddState()
+    {
+        stateList.Add(new State());
+        LinkList.Add(new List<StateLink>());
     }
 
     protected void AddState(State state)
@@ -45,12 +57,12 @@ public abstract class StateController
 
     protected void RemoveState(int index) 
     {
-        stateList.Remove(index);
+        stateList.RemoveAt(index);
     }
 
     protected void InsertState(int index, State state)
     {
-        stateList.insert(index, state);
+        stateList.Insert(index, state);
     }
 
     protected void AddFlag(string flagName)
@@ -91,9 +103,31 @@ public abstract class StateController
         return true;
     }
 
-    protected void AddLink(ushort startIndex, ushort goalIndex, params (string, bool)[] flagCondition)
+    public void AddLink(ushort startIndex, ushort goalIndex, params (string, bool)[] flagCondition)
     {
         LinkList[startIndex].Add(new StateLink(goalIndex, flagCondition));
+        foreach((string, bool) tmp in flagCondition)
+        {
+            if (!flag.ContainsKey(tmp.Item1))
+            {
+                flag.Add(tmp.Item1, false);
+            }
+        }
+    }
+
+    public void StateLinkEnterAction(ushort stateIndex, Action action)
+    {
+        stateList[stateIndex].LinkEnterAction(action);
+    }
+
+    public void StateLinkUpdateAction(ushort stateIndex, Action action)
+    {
+        stateList[stateIndex].LinkUpdateAction(action);
+    }
+
+    public void StateLinkExitAction(ushort stateIndex, Action action)
+    {
+        stateList[stateIndex].LinkExitAction(action);
     }
 
     protected class StateLink
