@@ -27,22 +27,33 @@ public class Monster : Unit
     {
         RaycastHit2D[] hits = Physics2D.BoxCastAll(this.transform.position + new Vector3(direction * this.attackRange / 2, 0 ,0), new Vector2(this.attackRange, 2), 0, Vector2.zero);
         //Debug.Log(hits.Length);
-        if(hits.Length > 1)
+
+        bool isRight = false;
+        if (hits.Length > 1)
         {
             foreach (RaycastHit2D hit in hits)
             {
-                if(this.target == null && !System.Object.ReferenceEquals(hit.collider.gameObject, this.gameObject))
+                if(!ReferenceEquals(hit.collider.gameObject, this.gameObject))
                 {
                     Unit tmp = hit.transform.gameObject.GetComponent<Unit>();
-                    if(tmp != null)
+                    if(tmp != null && tmp.getIsRightTeam() != this.isRightTeam)
                     {
-                        this.target = tmp;
-                        stateController.SetFlag("isDetectEnemy", true);
+                        if(this.target == null)
+                        {
+                            isRight = true;
+                            this.target = tmp;
+                            stateController.SetFlag("isDetectEnemy", true);
+                        }
+                        else if(ReferenceEquals(this.target, tmp))
+                        {
+                            isRight = true;
+                        }
                     }
                 }
             }
         }
-        else
+
+        if (!isRight)
         {
             stateController.SetFlag("isDetectEnemy", false);
             this.target = null;

@@ -12,6 +12,7 @@ public class UnitFactory : MonoBehaviour
     private GameObject unitBaseObject;
 
     private Dictionary<string, UnitInfo> data;
+    private UnitInfo BaseCamp;
 
     private void Start()
     {
@@ -30,6 +31,10 @@ public class UnitFactory : MonoBehaviour
             string[] tmp = t.Split(':'); 
             if(tmp.Length == 10 && tmp[0] != "//*")
             {
+                if (tmp[0] == "BaseCamp")
+                {
+                   BaseCamp = new UnitInfo(tmp[0], null, int.Parse(tmp[2]), int.Parse(tmp[3]), tmp[4] == "Near" ? true : false, float.Parse(tmp[5]), float.Parse(tmp[6]), float.Parse(tmp[7]), int.Parse(tmp[9]));
+                }
                 //이름0:sprite명1:체력2:공격력3:공격방식4:공격범위5:이동속도6:공격속도7:비용8:보상9
                 if (File.Exists("Assets/Resource/" + tmp[1]))
                 {
@@ -73,12 +78,16 @@ public class UnitFactory : MonoBehaviour
 
     public GameObject CreateBaseCamp(bool isRight)
     {
-        return null;
+        return CreateBaseCamp(isRight, Vector3.zero);
     }
 
     public GameObject CreateBaseCamp(bool isRight, Vector3 position)
     {
-        return null;
+        GameObject obj = Instantiate(unitBaseObject, position, Quaternion.Euler(position));
+        BaseCamp baseCamp = obj.AddComponent<BaseCamp>();
+        baseCamp.Setting(BaseCamp, null, isRight);
+
+        return obj;
     }
 
     public GameObject CreateTower(string name)
