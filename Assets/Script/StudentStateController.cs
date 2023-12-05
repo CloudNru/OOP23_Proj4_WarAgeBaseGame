@@ -4,74 +4,35 @@ using UnityEngine;
 
 public class StudentStateControler : StateController
 {
-    private const ushort Stay = 0;
-    private const ushort Walk = 1;
-    private const ushort Attack = 2;
-    private const ushort Dead = 3;
+    public const int stayState = 0;
+    public const int walkState = 1;
+    public const int attackState = 2;
 
     public StudentStateControler()
     {
-        stateList = new State[4];
-        stateList[Stay] = new StayState();
-        stateList[Walk] = new WalkState();
-        stateList[Attack] = new AttackState();
-        stateList[Dead] = new DeadState();
+
+        AddState(); AddState(); AddState();
+
+        //AddFlag("isDead");
+        //AddFlag("isDetectEnemy");
+
+        AddLink(stayState, walkState);
+        AddLink(walkState, attackState, ("isDetectEnemy", true));
+        AddLink(attackState, walkState, ("isDetectEnemy", false));
     }
 
-    public override void changeState(bool detectEnemy, bool detectFriedly, bool dead)
+    public StudentStateControler(Unit unit)
     {
-        if (isDead)
-        {
-            index = Dead;
-            return;
-        }
+        AddState(); AddState(); AddState();
 
-        switch (index)
-        {
-            case Stay:
-                if (!isDetectEnemy)
-                {
-                    index = Walk;
-                }
-                else
-                {
-                    index = Attack;
-                }
-                break;
+        StateLinkUpdateAction(walkState, unit.Walk);
+        StateLinkUpdateAction(attackState, unit.Attack);
 
-            case Walk:
-                if (isDetectEnemy)
-                {
-                    index = Attack;
-                }
-                break;
+        //AddFlag("isDead");
+        //AddFlag("isDetectEnemy");
 
-            case Attack:
-                if (!isDetectEnemy)
-                {
-                    index = Walk;
-                }
-                break;
-        }
-    }
-    protected class StayState : State
-    {
-    }
-
-    protected class WalkState : State
-    {
-        public override void Update(Unit obj)
-        {
-            base.Update(obj);
-            obj.transform.position += new Vector3(0, 1, 1);
-        }
-    }
-
-    protected class AttackState : State
-    {
-    }
-
-    protected class DeadState : State
-    {
+        AddLink(stayState, walkState);
+        AddLink(walkState, attackState, ("isDetectEnemy", true));
+        AddLink(attackState, walkState, ("isDetectEnemy", false));
     }
 }

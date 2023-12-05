@@ -220,9 +220,7 @@ public class GameManager : MonoBehaviour
     {
 
     }
-<<<<<<< Updated upstream
 }
-=======
 
     public int GetUsedGold()
     {
@@ -234,4 +232,4 @@ public class GameManager : MonoBehaviour
         return currentLv;
     }
 }
->>>>>>> Stashed changes
+}

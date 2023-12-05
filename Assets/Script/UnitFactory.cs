@@ -1,5 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using UnityEditor;
+using UnityEditor.Sprites;
 using UnityEngine;
 
 public class UnitFactory : MonoBehaviour
@@ -7,11 +11,10 @@ public class UnitFactory : MonoBehaviour
     [SerializeField]
     private GameObject unitBaseObject;
 
+    private Dictionary<string, UnitInfo> data;
+
     private void Start()
     {
-<<<<<<< Updated upstream
-        unitBaseObject = (GameObject)Resources.Load("Assets/Prefab/UnitBase");
-=======
         data = new Dictionary<string, UnitInfo>();
         if (File.Exists("Assets/Prefab/UnitBase.prefab"))
         {
@@ -46,17 +49,26 @@ public class UnitFactory : MonoBehaviour
         }
         //CreateMonster("FirstStudent", new Vector3(5, 0, 0), true);
         //CreateMonster("FirstStudent", new Vector3(-5, 0, 0), false);
->>>>>>> Stashed changes
     }
 
-    public GameObject CreateMonster(string name)
+    public GameObject CreateMonster(string name, bool isRightTeam)
     {
-        return null;        
+        return CreateMonster(name, Vector3.zero, isRightTeam);        
     }
 
-    public GameObject CreateMonster(string name, Vector3 position)
+    public GameObject CreateMonster(string name, Vector3 position, bool isRightTeam)
     {
-        return null;
+        if (!data.ContainsKey(name))
+        {
+            Debug.Log("Error!");
+            return null; 
+        }
+
+        GameObject obj = Instantiate(unitBaseObject, position, Quaternion.Euler(position));
+        Monster monster = obj.AddComponent<Monster>();
+        monster.Setting(data[name], new StudentStateControler(monster), isRightTeam);
+        obj.SetActive(true);
+        return obj;
     }
 
     public GameObject CreateBaseCamp(bool isRight)
