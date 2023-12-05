@@ -47,8 +47,8 @@ public class UnitFactory : MonoBehaviour
                 Debug.Log(tmp[0] + " " + data[tmp[0]]);
             }
         }
-        CreateMonster("FirstStudent", new Vector3(5, 0, 0), true);
-        CreateMonster("FirstStudent", new Vector3(-5, 0, 0), false);
+        //CreateMonster("FirstStudent", new Vector3(5, 0, 0), true);
+        //CreateMonster("FirstStudent", new Vector3(-5, 0, 0), false);
     }
 
     public GameObject CreateMonster(string name, bool isRightTeam)

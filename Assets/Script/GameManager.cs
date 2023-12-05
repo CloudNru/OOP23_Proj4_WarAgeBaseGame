@@ -22,26 +22,56 @@ public class GameManager : MonoBehaviour
 
     private int Gold = 0;
     private int Exp = 0;
-
+    private int UsedGold = 0;
     private int currentLv = 1;
 
     private Text goldText;
     private Text expText;
 
     private UnitFactory unitFactory;
-    [SerializeField]
-    private GameObject homeBase;
-    [SerializeField]
-    private GameObject awayBase;
+
 
     private Slider unitCoolBar;
     private Slider homeHealthBar;
     private Slider awayHealthBar;
+
+    private Vector3 homeBaseVec = new Vector3(-4, -4.5f, -1);
     public Queue<string> unitQueue = new Queue<string>();
 
     public Image[] unitImg;
 
     // Start is called before the first frame update
+
+    private static GameManager instance;
+
+    public static GameManager Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = FindObjectOfType<GameManager>();
+                if (instance == null)
+                {
+                    GameObject singletonObject = new GameObject(typeof(GameManager).Name);
+                    instance = singletonObject.AddComponent<GameManager>();
+                }
+            }
+            return instance;
+        }
+    }
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
     void Start()
     {
         goldText = GameObject.Find("GoldNum").GetComponent<Text>();
@@ -56,8 +86,6 @@ public class GameManager : MonoBehaviour
         {
             unitImg[i] = GameObject.Find("UnitImg" + (i + 1)).GetComponent<Image>();
         }
-        homeBase = unitFactory.CreateBaseCamp(false,new Vector3(-4,-4.5f,0));
-        awayBase = unitFactory.CreateBaseCamp(true, new Vector3(24, -4.5f, 0));
         StartCoroutine(StartIncrementing());
 
     }
@@ -91,7 +119,7 @@ public class GameManager : MonoBehaviour
             
             if (curTime == 1)
             {
-                unitQueue.Dequeue();
+                unitFactory.CreateMonster(unitQueue.Dequeue(), homeBaseVec, false);
             }
             curTime -= 1;
         }
@@ -108,12 +136,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    IEnumerator unitCool(int time)
-    {
-        yield return new WaitForSeconds(time);
-        unitFactory.CreateMonster(unitQueue.Dequeue());
 
-    }
 
     void IncreaseValue()
     {
@@ -121,13 +144,6 @@ public class GameManager : MonoBehaviour
         Exp += 100;
     }
 
-    void AddUnit(string name)
-    {
-        if(currentLv == 1)
-        {
-            unitQueue.Enqueue("lv1Unit");
-        }
-    }
 
     public void UpgradeBase()
     {
@@ -145,25 +161,56 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void BuyUnit()
+    public void BuyUnitMelee()
     {
         if (Gold >= 100 && currentLv == 1 && unitQueue.Count<5)
         {
+            UsedGold += 100;
             Gold -= 100;
-            unitQueue.Enqueue("LV1");
+            unitQueue.Enqueue("FirstStudent");
         }
         else if (Gold >= 200 && currentLv == 2 && unitQueue.Count < 5)
         {
+            UsedGold += 200;
             Gold -= 200;
             unitQueue.Enqueue("LV2");
         }
         else if (Gold >= 300 && currentLv == 3 && unitQueue.Count < 5)
         {
+            UsedGold += 300;
             Gold -= 300;
             unitQueue.Enqueue("LV3");
         }
         else if(Gold >= 400 && currentLv == 4 && unitQueue.Count < 5)
         {
+            UsedGold += 400;
+            Gold -= 400;
+            unitQueue.Enqueue("LV4");
+        }
+    }
+    public void BuyUnitRange()
+    {
+        if (Gold >= 100 && currentLv == 1 && unitQueue.Count < 5)
+        {
+            UsedGold += 100;
+            Gold -= 100;
+            unitQueue.Enqueue("FirstStudent2");
+        }
+        else if (Gold >= 200 && currentLv == 2 && unitQueue.Count < 5)
+        {
+            UsedGold += 200;
+            Gold -= 200;
+            unitQueue.Enqueue("LV2");
+        }
+        else if (Gold >= 300 && currentLv == 3 && unitQueue.Count < 5)
+        {
+            UsedGold += 300;
+            Gold -= 300;
+            unitQueue.Enqueue("LV3");
+        }
+        else if (Gold >= 400 && currentLv == 4 && unitQueue.Count < 5)
+        {
+            UsedGold += 400;
             Gold -= 400;
             unitQueue.Enqueue("LV4");
         }
@@ -173,4 +220,16 @@ public class GameManager : MonoBehaviour
     {
 
     }
+}
+
+    public int GetUsedGold()
+    {
+        return UsedGold;
+    }
+
+    public int GetLV()
+    {
+        return currentLv;
+    }
+}
 }
