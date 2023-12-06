@@ -75,7 +75,9 @@ public abstract class Unit : MonoBehaviour
         if(hp < 0)
         {
             hp = 0;
-            //trigger
+            Destroy(this.gameObject);
         }
     }
+
+    public bool getIsRightTeam() { return isRightTeam; }
 }
