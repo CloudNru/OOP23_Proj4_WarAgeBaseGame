@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class BaseCamp : Unit
 {
-    public void upgradeImage(string address)
+    private Sprite[] spriteList;
+
+    public void upgradeImage(int level)
     {
         
     }
