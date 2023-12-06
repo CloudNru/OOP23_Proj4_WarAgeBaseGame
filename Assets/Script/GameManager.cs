@@ -220,7 +220,6 @@ public class GameManager : MonoBehaviour
     {
 
     }
-}
 
     public int GetUsedGold()
     {
@@ -231,5 +230,8 @@ public class GameManager : MonoBehaviour
     {
         return currentLv;
     }
+
+
 }
-}
+
+    
