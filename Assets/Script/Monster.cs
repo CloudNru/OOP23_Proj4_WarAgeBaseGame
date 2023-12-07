@@ -76,10 +76,6 @@ public class Monster : Unit
         {
             base.Attack();
             Debug.Log("Attack!!!");
-            if (Random.Range(0,1000) < 500)
-            {
-                this.target.transform.position += Vector3.right * direction * 10;
-            }
             attackCoolTime = 2;
         }
     }

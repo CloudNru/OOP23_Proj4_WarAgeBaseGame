@@ -15,6 +15,7 @@ public abstract class StateController
 
     public StateController()
     {
+        index = 0;
         controllerActive = true;
     }
 

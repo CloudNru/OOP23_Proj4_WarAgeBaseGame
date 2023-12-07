@@ -10,11 +10,7 @@ public class StudentStateControler : StateController
 
     public StudentStateControler()
     {
-
         AddState(); AddState(); AddState();
-
-        //AddFlag("isDead");
-        //AddFlag("isDetectEnemy");
 
         AddLink(stayState, walkState);
         AddLink(walkState, attackState, ("isDetectEnemy", true));
@@ -27,9 +23,6 @@ public class StudentStateControler : StateController
 
         StateLinkUpdateAction(walkState, unit.Walk);
         StateLinkUpdateAction(attackState, unit.Attack);
-
-        //AddFlag("isDead");
-        //AddFlag("isDetectEnemy");
 
         AddLink(stayState, walkState);
         AddLink(walkState, attackState, ("isDetectEnemy", true));

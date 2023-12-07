@@ -84,7 +84,7 @@ public class GameManager : MonoBehaviour
         awayHealthBar = GameObject.Find("HealthbarAway").GetComponent<Slider>();
         unitImg = new Image[5];
         unitFactory = GetComponent<UnitFactory>();
-
+        unitFactory.FileLoad();
         
         for (int i = 0; i < 5; i++)
         {
@@ -94,13 +94,11 @@ public class GameManager : MonoBehaviour
         homeBase = unitFactory.CreateBaseCamp(false, homeBaseVec).GetComponent<GameObject>();
         awayBase = unitFactory.CreateBaseCamp(true, awayBaseVec);
         StartCoroutine(StartIncrementing());
-
     }
 
     // Update is called once per frame
     void Update()
     {
-        
         goldText.text = Gold.ToString();
         expText.text = Exp.ToString();
 
@@ -132,7 +130,6 @@ public class GameManager : MonoBehaviour
             curTime -= 1;
         }
         unitCoolBar.value = curTime / MaxTime;
-
     }
 
     IEnumerator StartIncrementing()
@@ -184,19 +181,19 @@ public class GameManager : MonoBehaviour
         {
             UsedGold += 200;
             Gold -= 200;
-            unitQueue.Enqueue("LV2");
+            unitQueue.Enqueue("SecondStudent");
         }
         else if (Gold >= 300 && currentLv == 3 && unitQueue.Count < 5)
         {
             UsedGold += 300;
             Gold -= 300;
-            unitQueue.Enqueue("LV3");
+            unitQueue.Enqueue("ThirdStudent");
         }
         else if(Gold >= 400 && currentLv == 4 && unitQueue.Count < 5)
         {
             UsedGold += 400;
             Gold -= 400;
-            unitQueue.Enqueue("LV4");
+            unitQueue.Enqueue("FourthStudent");
         }
     }
     public void BuyUnitRange()
@@ -205,25 +202,25 @@ public class GameManager : MonoBehaviour
         {
             UsedGold += 100;
             Gold -= 100;
-            unitQueue.Enqueue("FirstStudent2");
+            unitQueue.Enqueue("FirstStudent");
         }
         else if (Gold >= 200 && currentLv == 2 && unitQueue.Count < 5)
         {
             UsedGold += 200;
             Gold -= 200;
-            unitQueue.Enqueue("LV2");
+            unitQueue.Enqueue("SecondStudent");
         }
         else if (Gold >= 300 && currentLv == 3 && unitQueue.Count < 5)
         {
             UsedGold += 300;
             Gold -= 300;
-            unitQueue.Enqueue("LV3");
+            unitQueue.Enqueue("ThirdStudent");
         }
         else if (Gold >= 400 && currentLv == 4 && unitQueue.Count < 5)
         {
             UsedGold += 400;
             Gold -= 400;
-            unitQueue.Enqueue("LV4");
+            unitQueue.Enqueue("FourthStudent");
         }
     }
 
@@ -241,15 +238,13 @@ public class GameManager : MonoBehaviour
     {
         return currentLv;
     }
-    public void killGold(Unit enemy)
+    public void killGold(int gold)
     {
 
     }
 
-    public void killExp(Unit enemy)
+    public void killExp(int exp)
     {
 
     }
-
-
 }

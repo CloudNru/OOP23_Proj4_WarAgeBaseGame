@@ -14,7 +14,7 @@ public class UnitFactory : MonoBehaviour
     private Dictionary<string, UnitInfo> data;
     private UnitInfo BaseCamp;
 
-    private void Start()
+    public void FileLoad()
     {
         data = new Dictionary<string, UnitInfo>();
         if (File.Exists("Assets/Prefab/UnitBase.prefab"))
@@ -28,22 +28,51 @@ public class UnitFactory : MonoBehaviour
         }
         foreach (string t in datas)
         {
-            string[] tmp = t.Split(':'); 
-            if(tmp.Length == 10 && tmp[0] != "//*")
+            if(t == "//*")
             {
-                if (tmp[0] == "BaseCamp")
-                {
-                   BaseCamp = new UnitInfo(tmp[0], null, int.Parse(tmp[2]), int.Parse(tmp[3]), tmp[4] == "Near" ? true : false, float.Parse(tmp[5]), float.Parse(tmp[6]), float.Parse(tmp[7]), int.Parse(tmp[9]));
-                }
+                continue;
+            }
+
+            string[] tmp = t.Split(':');
+            if (tmp[0] == "BaseCamp")
+            {
+                byte[] TextureData = File.ReadAllBytes("Assets/Resource/" + tmp[1]);
+                Texture2D texture = new Texture2D(1, 1);
+                texture.LoadImage(TextureData);
+                Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f), 2000);
+
+                BaseCamp = new UnitInfo(tmp[0], sprite, int.Parse(tmp[2]), int.Parse(tmp[3]), tmp[4] == "Near" ? true : false, float.Parse(tmp[5]), float.Parse(tmp[6]), float.Parse(tmp[7]), int.Parse(tmp[9]));
+                Debug.Log(tmp[0] + " " + BaseCamp);
+            }
+            else if (tmp.Length == 10)
+            {
                 //이름0:sprite명1:체력2:공격력3:공격방식4:공격범위5:이동속도6:공격속도7:비용8:보상9
                 if (File.Exists("Assets/Resource/" + tmp[1]))
                 {
                     byte[] TextureData = File.ReadAllBytes("Assets/Resource/" + tmp[1]);
-                    Texture2D texture = new Texture2D(1,1);
+                    Texture2D texture = new Texture2D(1, 1);
                     texture.LoadImage(TextureData);
-                    Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f), 1000);
+                    Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f), 2000);
 
                     data.Add(tmp[0], new UnitInfo(tmp[0], sprite, int.Parse(tmp[2]), int.Parse(tmp[3]), tmp[4] == "Near" ? true : false, float.Parse(tmp[5]), float.Parse(tmp[6]), float.Parse(tmp[7]), int.Parse(tmp[9])));
+                }
+            }
+            else if (tmp.Length == 11)
+            {
+                //이름0:sprite명1:체력2:공격력3:공격방식4:공격범위5:이동속도6:공격속도7:비용8:보상9:총알sprite명10
+                if (File.Exists("Assets/Resource/" + tmp[1]) && File.Exists("Assets/Resource/" + tmp[10]))
+                {
+                    byte[] TextureData = File.ReadAllBytes("Assets/Resource/" + tmp[1]);
+                    Texture2D texture = new Texture2D(1, 1);
+                    texture.LoadImage(TextureData);
+                    Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f), 2000);
+
+                    TextureData = File.ReadAllBytes("Assets/Resource/" + tmp[10]);
+                    texture = new Texture2D(1, 1);
+                    texture.LoadImage(TextureData);
+                    Sprite bulletSprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f), 300);
+
+                    data.Add(tmp[0], new UnitInfo(tmp[0], sprite, int.Parse(tmp[2]), int.Parse(tmp[3]), tmp[4] == "Near" ? true : false, float.Parse(tmp[5]), float.Parse(tmp[6]), float.Parse(tmp[7]), int.Parse(tmp[9]), bulletSprite));
                 }
             }
 
@@ -52,8 +81,6 @@ public class UnitFactory : MonoBehaviour
                 Debug.Log(tmp[0] + " " + data[tmp[0]]);
             }
         }
-        //CreateMonster("FirstStudent", new Vector3(5, 0, 0), true);
-        //CreateMonster("FirstStudent", new Vector3(-5, 0, 0), false);
     }
 
     public GameObject CreateMonster(string name, bool isRightTeam)
@@ -69,34 +96,45 @@ public class UnitFactory : MonoBehaviour
             return null; 
         }
 
-        GameObject obj = Instantiate(unitBaseObject, position, Quaternion.Euler(position));
+        GameObject obj = Instantiate(unitBaseObject, position, Quaternion.Euler(Vector3.up * (isRightTeam ? 180 : 0)));
         Monster monster = obj.AddComponent<Monster>();
         monster.Setting(data[name], new StudentStateControler(monster), isRightTeam);
         obj.SetActive(true);
         return obj;
     }
 
-    public GameObject CreateBaseCamp(bool isRight)
+    public GameObject CreateBaseCamp(bool isRightTeam)
     {
-        return CreateBaseCamp(isRight, Vector3.zero);
+        return CreateBaseCamp(isRightTeam, Vector3.zero);
     }
 
-    public GameObject CreateBaseCamp(bool isRight, Vector3 position)
+    public GameObject CreateBaseCamp(bool isRightTeam, Vector3 position)
     {
-        GameObject obj = Instantiate(unitBaseObject, position, Quaternion.Euler(position));
+        GameObject obj = Instantiate(unitBaseObject, position, Quaternion.Euler(Vector3.up * (isRightTeam ? 180 : 0)));
         BaseCamp baseCamp = obj.AddComponent<BaseCamp>();
-        baseCamp.Setting(BaseCamp, null, isRight);
+        baseCamp.Setting(BaseCamp, null, isRightTeam);
+        obj.SetActive(true);
 
         return obj;
     }
 
-    public GameObject CreateTower(string name)
+    public GameObject CreateTower(string name, bool isRightTeam)
     {
-        return null;
+        return CreateTower(name, Vector3.zero, isRightTeam);
     }
 
-    public GameObject CreateTower(string name, Vector3 position)
+    public GameObject CreateTower(string name, Vector3 position, bool isRightTeam)
     {
-        return null;
+        if (!data.ContainsKey(name))
+        {
+            Debug.Log("Error!");
+            return null;
+        }
+
+        GameObject obj = Instantiate(unitBaseObject, position, Quaternion.Euler(Vector3.up * (isRightTeam ? 180 : 0)));
+        Tower tower = obj.AddComponent<Tower>();
+        tower.Setting(data[name], new TowerStateController(tower), isRightTeam);
+        obj.SetActive(true);
+        return obj;
     }
 }

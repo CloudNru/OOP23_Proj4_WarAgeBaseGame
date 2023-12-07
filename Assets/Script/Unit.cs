@@ -20,6 +20,7 @@ public abstract class Unit : MonoBehaviour
 
     [SerializeField] protected SpriteRenderer spriteRenderer;
     [SerializeField] protected StateController stateController;
+    [SerializeField] protected Sprite bulletSprite;
 
 
     public virtual void Setting(UnitInfo info, StateController controller, bool isRightTeam)
@@ -38,6 +39,10 @@ public abstract class Unit : MonoBehaviour
         speed = info.speed;
         attackSpeed = info.attackSpeed;
         giveCost = info.giveCost;
+        if(info.bulletSprite != null)
+        {
+            bulletSprite = info.bulletSprite;
+        }
 
         this.stateController = controller;
         this.isRightTeam = isRightTeam;
@@ -47,17 +52,21 @@ public abstract class Unit : MonoBehaviour
     {
         if (target != null)
         {
-            /*
             if (this.isNear)
             {
                 target.GetDamaged(this.power);
             }
-            else
+            else if(bulletSprite != null)
             {
-                
+                GameObject obj = new GameObject();
+                obj.SetActive(false);
+
+                obj.transform.position = this.transform.position;
+                obj.transform.rotation = Quaternion.identity;
+                obj.AddComponent<SpriteRenderer>().sprite = bulletSprite;
+                obj.AddComponent<Bullet>().Setting(this.target, this.power);
+                obj.SetActive(true);
             }
-            //*/
-            target.GetDamaged(this.power);
         }
     }
 
@@ -75,8 +84,14 @@ public abstract class Unit : MonoBehaviour
         if(hp < 0)
         {
             hp = 0;
-            Destroy(this.gameObject);
+            onDestory();
         }
+    }
+
+    public virtual void onDestory()
+    {
+        GameManager.Instance.killGold(this.giveCost);
+        Destroy(this.gameObject);
     }
 
     public bool getIsRightTeam() { return isRightTeam; }

@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Tower : Unit
+public class Tower : Unit
 {
     // Start is called before the first frame update
     void Start()
     {
-        
+        this.gameObject.name = unitName;
+        this.gameObject.GetComponent<BoxCollider2D>().enabled = false;
     }
 
     // Update is called once per frame
@@ -15,22 +16,33 @@ public abstract class Tower : Unit
     {
         RaycastHit2D[] hits = Physics2D.CircleCastAll(this.transform.position, this.attackRange, Vector2.zero);
         //Debug.Log(hits.Length);
+
+        bool isRight = false;
         if (hits.Length > 1)
         {
             foreach (RaycastHit2D hit in hits)
             {
-                if (this.target == null && !System.Object.ReferenceEquals(hit.collider.gameObject, this.gameObject))
+                if (!ReferenceEquals(hit.collider.gameObject, this.gameObject))
                 {
                     Unit tmp = hit.transform.gameObject.GetComponent<Unit>();
-                    if (tmp != null)
+                    if (tmp != null && tmp.getIsRightTeam() != this.isRightTeam)
                     {
-                        this.target = tmp;
-                        stateController.SetFlag("isDetectEnemy", true);
+                        if (this.target == null)
+                        {
+                            isRight = true;
+                            this.target = tmp;
+                            stateController.SetFlag("isDetectEnemy", true);
+                        }
+                        else if (ReferenceEquals(this.target, tmp))
+                        {
+                            isRight = true;
+                        }
                     }
                 }
             }
         }
-        else
+
+        if (!isRight)
         {
             stateController.SetFlag("isDetectEnemy", false);
             this.target = null;
@@ -40,6 +52,16 @@ public abstract class Tower : Unit
             attackCoolTime -= Time.deltaTime / this.attackSpeed;
         }
         this.stateController.Update();
+    }
+
+    public override void Attack()
+    {
+        if (attackCoolTime <= 0 && this.target != null)
+        {
+            base.Attack();
+            Debug.Log("Attack!!!");
+            attackCoolTime = 3;
+        }
     }
 
     public override void Walk() { }
