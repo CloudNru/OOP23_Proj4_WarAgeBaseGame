@@ -36,8 +36,11 @@ public class GameManager : MonoBehaviour
     private Slider awayHealthBar;
 
     private Vector3 homeBaseVec = new Vector3(-4, -4.5f, -1);
+    private Vector3 awayBaseVec = new Vector3(24, -4.5f, -1);
     public Queue<string> unitQueue = new Queue<string>();
 
+    public GameObject homeBase;
+    public GameObject awayBase;
     public Image[] unitImg;
 
     // Start is called before the first frame update
@@ -82,10 +85,14 @@ public class GameManager : MonoBehaviour
         unitImg = new Image[5];
         unitFactory = GetComponent<UnitFactory>();
 
-        for(int i = 0; i < 5; i++)
+        
+        for (int i = 0; i < 5; i++)
         {
             unitImg[i] = GameObject.Find("UnitImg" + (i + 1)).GetComponent<Image>();
         }
+
+        homeBase = unitFactory.CreateBaseCamp(false, homeBaseVec).GetComponent<GameObject>();
+        awayBase = unitFactory.CreateBaseCamp(true, awayBaseVec);
         StartCoroutine(StartIncrementing());
 
     }
@@ -93,7 +100,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        
         goldText.text = Gold.ToString();
         expText.text = Exp.ToString();
 
@@ -114,7 +121,8 @@ public class GameManager : MonoBehaviour
             
             if (curTime == 0)
             {
-                curTime = 400;
+                curTime = MaxTime;
+                
             }
             
             if (curTime == 1)
@@ -150,14 +158,17 @@ public class GameManager : MonoBehaviour
         if (Exp >= 100 && currentLv == 1)
         {
             currentLv = 2;
+            MaxTime = 450;
         }
         else if(Exp >= 200 && currentLv == 2)
         {
             currentLv = 3;
+            MaxTime = 500;
         }
         else if(Exp >=300 && currentLv == 3)
         {
             currentLv = 4;
+            MaxTime = 550;
         }
     }
 
@@ -229,6 +240,15 @@ public class GameManager : MonoBehaviour
     public int GetLV()
     {
         return currentLv;
+    }
+    public void killGold(Unit enemy)
+    {
+
+    }
+
+    public void killExp(Unit enemy)
+    {
+
     }
 
 
