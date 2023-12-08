@@ -54,7 +54,19 @@ public abstract class Unit : MonoBehaviour
             }
             else
             {
+<<<<<<< Updated upstream
                 
+=======
+                GameObject obj = new GameObject();
+                obj.SetActive(false);
+
+                obj.transform.position = this.transform.position;
+                obj.transform.rotation = Quaternion.identity;
+                obj.AddComponent<SpriteRenderer>().sprite = bulletSprite;
+                obj.GetComponent<Transform>().localScale = new Vector3(3, 3, 4);
+                obj.AddComponent<Bullet>().Setting(this.target, this.power);
+                obj.SetActive(true);
+>>>>>>> Stashed changes
             }
             //*/
             target.GetDamaged(this.power);
@@ -79,5 +91,14 @@ public abstract class Unit : MonoBehaviour
         }
     }
 
+<<<<<<< Updated upstream
+=======
+    public virtual void onDestory()
+    {
+        GameManager.Instance.killGold(this.giveCost,true);
+        Destroy(this.gameObject);
+    }
+
+>>>>>>> Stashed changes
     public bool getIsRightTeam() { return isRightTeam; }
 }

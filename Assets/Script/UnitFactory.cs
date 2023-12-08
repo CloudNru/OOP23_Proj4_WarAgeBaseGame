@@ -85,7 +85,13 @@ public class UnitFactory : MonoBehaviour
     {
         GameObject obj = Instantiate(unitBaseObject, position, Quaternion.Euler(position));
         BaseCamp baseCamp = obj.AddComponent<BaseCamp>();
+<<<<<<< Updated upstream
         baseCamp.Setting(BaseCamp, null, isRight);
+=======
+        obj.GetComponent<Animator>().enabled = false;
+        baseCamp.Setting(BaseCamp, null, isRightTeam);
+        obj.SetActive(true);
+>>>>>>> Stashed changes
 
         return obj;
     }
@@ -97,6 +103,22 @@ public class UnitFactory : MonoBehaviour
 
     public GameObject CreateTower(string name, Vector3 position)
     {
+<<<<<<< Updated upstream
         return null;
+=======
+        if (!data.ContainsKey(name))
+        {
+            Debug.Log("Error!");
+            return null;
+        }
+
+        GameObject obj = Instantiate(unitBaseObject, position, Quaternion.Euler(Vector3.up * (isRightTeam ? 180 : 0)));
+        Tower tower = obj.AddComponent<Tower>();
+        obj.GetComponent<Animator>().enabled = false;
+        obj.GetComponent<Transform>().localScale = new Vector3(10, 10, 5);
+        tower.Setting(data[name], new TowerStateController(tower), isRightTeam);
+        obj.SetActive(true);
+        return obj;
+>>>>>>> Stashed changes
     }
 }
