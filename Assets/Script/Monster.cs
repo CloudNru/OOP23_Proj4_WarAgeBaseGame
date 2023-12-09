@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Monster : Unit
 {
-    private bool tmp = false;
     private int direction;
 
     public override void Setting(UnitInfo info, StateController controller, bool isRightTeam)

@@ -1,4 +1,5 @@
-BaseCamp:310-1.png:1000:0:Near:0:0:0:0:0
+BaseCamp_310:310-1.png/310-2.png:1000:0:Near:0:0:0:0:0
+BaseCamp_208:208-1.png/208-2.png/208-3.png/208-4.png:1000:0:Near:0:0:0:0:0
 FirstStudent:FirstStudentMeleeWalk-1.png:100:10:Near:1:2.0:5:50:75
 SecondStudent:SecondStudentMeleeWalk-1.png:300:30:Near:1:1.0:5:75:110
 ThirdStudent:ThirdStudentMeleeWalk-1.png:200:20:Far:7:1.0:5:110:150:RangeAmmo.png

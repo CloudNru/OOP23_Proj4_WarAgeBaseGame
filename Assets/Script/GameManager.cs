@@ -189,7 +189,6 @@ public class GameManager : MonoBehaviour
         }
         else if (Gold >= unitFactory.getUnitCost("FirstStudent") && currentLv == 2 && unitQueue.Count < 5)
         {
-<<<<<<< Updated upstream
             UsedGold += 200;
             Gold -= 200;
             UsedGold += unitFactory.getUnitCost("SecondStudent");
@@ -198,7 +197,6 @@ public class GameManager : MonoBehaviour
         }
         else if (Gold >= unitFactory.getUnitCost("FirstStudent") && currentLv == 3 && unitQueue.Count < 5)
         {
-<<<<<<< Updated upstream
             UsedGold += 300;
             Gold -= 300;
             UsedGold += unitFactory.getUnitCost("ThirdStudent");
@@ -207,7 +205,6 @@ public class GameManager : MonoBehaviour
         }
         else if(Gold >= unitFactory.getUnitCost("FirstStudent") && currentLv == 4 && unitQueue.Count < 5)
         {
-<<<<<<< Updated upstream
             UsedGold += 400;
             Gold -= 400;
             UsedGold += unitFactory.getUnitCost("FourthStudent");
@@ -219,7 +216,6 @@ public class GameManager : MonoBehaviour
     {
         if (Gold >= unitFactory.getUnitCost("FirstStudent") && currentLv == 1 && unitQueue.Count < 5)
         {
-<<<<<<< Updated upstream
             UsedGold += 100;
             Gold -= 100;
             UsedGold += unitFactory.getUnitCost("FirstStudent");
@@ -228,7 +224,6 @@ public class GameManager : MonoBehaviour
         }
         else if (Gold >= unitFactory.getUnitCost("FirstStudent") && currentLv == 2 && unitQueue.Count < 5)
         {
-<<<<<<< Updated upstream
             UsedGold += 200;
             Gold -= 200;
             UsedGold += unitFactory.getUnitCost("FirstStudent");
@@ -237,7 +232,6 @@ public class GameManager : MonoBehaviour
         }
         else if (Gold >= unitFactory.getUnitCost("FirstStudent") && currentLv == 3 && unitQueue.Count < 5)
         {
-<<<<<<< Updated upstream
             UsedGold += 300;
             Gold -= 300;
             UsedGold += unitFactory.getUnitCost("FirstStudent");
@@ -246,7 +240,6 @@ public class GameManager : MonoBehaviour
         }
         else if (Gold >= unitFactory.getUnitCost("FirstStudent") && currentLv == 4 && unitQueue.Count < 5)
         {
-<<<<<<< Updated upstream
             UsedGold += 400;
             Gold -= 400;
             UsedGold += unitFactory.getUnitCost("FirstStudent");
@@ -303,8 +296,4 @@ public class GameManager : MonoBehaviour
     {
 
     }
-=======
->>>>>>> Stashed changes
-
-
 }
