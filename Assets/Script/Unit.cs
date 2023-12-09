@@ -5,14 +5,20 @@ using UnityEngine;
 public abstract class Unit : MonoBehaviour
 {
     [SerializeField] protected string unitName;
+
     [SerializeField] protected int power;
+
     [SerializeField] protected int MaxHp;
     [SerializeField] protected int hp;
+
     [SerializeField] protected bool isNear;
+
     [SerializeField] protected float attackRange;
     [SerializeField] protected float attackSpeed;
     [SerializeField] protected float attackCoolTime;
+
     [SerializeField] protected float speed;
+
     [SerializeField] protected int giveCost;
     [SerializeField] protected bool isRightTeam;
 
@@ -20,6 +26,7 @@ public abstract class Unit : MonoBehaviour
 
     [SerializeField] protected SpriteRenderer spriteRenderer;
     [SerializeField] protected StateController stateController;
+
     [SerializeField] protected Sprite bulletSprite;
 
 

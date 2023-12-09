@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
 using UnityEditor;
+using UnityEditor.Animations;
 using UnityEditor.Sprites;
+using UnityEditorInternal;
 using UnityEngine;
 
 public class UnitFactory : MonoBehaviour
@@ -136,6 +138,8 @@ public class UnitFactory : MonoBehaviour
         GameObject obj = Instantiate(unitBaseObject, position, Quaternion.Euler(Vector3.up * (isRightTeam ? 180 : 0)));
         BaseCamp baseCamp = obj.AddComponent<BaseCamp>();
         baseCamp.Setting(BaseCamp, null, isRightTeam);
+        
+        Animator animator = baseCamp.gameObject.AddComponent<Animator>();
         baseCamp.setImageInfo(spriteList[campName]);
         obj.SetActive(true);
 
