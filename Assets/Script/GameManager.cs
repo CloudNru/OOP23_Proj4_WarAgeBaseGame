@@ -261,7 +261,7 @@ public class GameManager : MonoBehaviour
     {
         return currentLv;
     }
-    public void killGold(Unit enemy)
+    public void killGold(int killGold, bool isEnemy)
     {
         Gold += killGold;
     }

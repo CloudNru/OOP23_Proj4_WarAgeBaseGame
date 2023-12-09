@@ -41,7 +41,7 @@ public class UnitFactory : MonoBehaviour
                 texture.LoadImage(TextureData);
                 Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f), 2000);
 
-                BaseCamp = new UnitInfo(tmp[0], sprite, int.Parse(tmp[2]), int.Parse(tmp[3]), tmp[4] == "Near" ? true : false, float.Parse(tmp[5]), float.Parse(tmp[6]), float.Parse(tmp[7]), int.Parse(tmp[9]));
+                BaseCamp = new UnitInfo(tmp[0], sprite, int.Parse(tmp[2]), int.Parse(tmp[3]), tmp[4] == "Near" ? true : false, float.Parse(tmp[5]), float.Parse(tmp[6]), float.Parse(tmp[7]), int.Parse(tmp[8]), int.Parse(tmp[9]));
                 Debug.Log(tmp[0] + " " + BaseCamp);
             }
             else if (tmp.Length == 10)
@@ -54,7 +54,7 @@ public class UnitFactory : MonoBehaviour
                     texture.LoadImage(TextureData);
                     Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f), 2000);
 
-                    data.Add(tmp[0], new UnitInfo(tmp[0], sprite, int.Parse(tmp[2]), int.Parse(tmp[3]), tmp[4] == "Near" ? true : false, float.Parse(tmp[5]), float.Parse(tmp[6]), float.Parse(tmp[7]), int.Parse(tmp[9])));
+                    data.Add(tmp[0], new UnitInfo(tmp[0], sprite, int.Parse(tmp[2]), int.Parse(tmp[3]), tmp[4] == "Near" ? true : false, float.Parse(tmp[5]), float.Parse(tmp[6]), float.Parse(tmp[7]), int.Parse(tmp[8]), int.Parse(tmp[9])));
                 }
             }
             else if (tmp.Length == 11)
@@ -72,7 +72,7 @@ public class UnitFactory : MonoBehaviour
                     texture.LoadImage(TextureData);
                     Sprite bulletSprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f), 300);
 
-                    data.Add(tmp[0], new UnitInfo(tmp[0], sprite, int.Parse(tmp[2]), int.Parse(tmp[3]), tmp[4] == "Near" ? true : false, float.Parse(tmp[5]), float.Parse(tmp[6]), float.Parse(tmp[7]), int.Parse(tmp[9]), bulletSprite));
+                    data.Add(tmp[0], new UnitInfo(tmp[0], sprite, int.Parse(tmp[2]), int.Parse(tmp[3]), tmp[4] == "Near" ? true : false, float.Parse(tmp[5]), float.Parse(tmp[6]), float.Parse(tmp[7]), int.Parse(tmp[8]), int.Parse(tmp[9]), bulletSprite));
                 }
             }
 
@@ -132,9 +132,20 @@ public class UnitFactory : MonoBehaviour
         }
 
         GameObject obj = Instantiate(unitBaseObject, position, Quaternion.Euler(Vector3.up * (isRightTeam ? 180 : 0)));
+        this.transform.localScale = new Vector3(10, 10, 5);
         Tower tower = obj.AddComponent<Tower>();
         tower.Setting(data[name], new TowerStateController(tower), isRightTeam);
         obj.SetActive(true);
         return obj;
+    }
+
+    public int getUnitCost(String unitName)
+    {
+        if(unitName == null || !data.ContainsKey(unitName))
+        {
+            return -1;
+        }
+
+        return data[unitName].cost;
     }
 }

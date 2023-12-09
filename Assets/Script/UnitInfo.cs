@@ -12,6 +12,7 @@ public class UnitInfo
     public float attackRange {  get; }
     public float speed {  get; }
     public float attackSpeed {  get; }
+    public int cost { get; }
     public int giveCost {  get; }
     public Sprite bulletSprite { get; }
 
@@ -28,7 +29,7 @@ public class UnitInfo
     }
 
     //이름:sprite명:체력:공격력:공격방식:공격범위:공격속도:이동속도:비용:보상:
-    public UnitInfo(string name, Sprite sprite, int maxHp, int power, bool isNear, float attackRange,float attackSpeed, float speed, int giveCost)
+    public UnitInfo(string name, Sprite sprite, int maxHp, int power, bool isNear, float attackRange,float attackSpeed, float speed, int cost, int giveCost)
     {
         this.name = name;
         this.sprite = sprite;
@@ -39,10 +40,11 @@ public class UnitInfo
         this.attackSpeed = attackSpeed;
         this.speed = speed;
         this.giveCost = giveCost;
+        this.cost = cost;
         this.bulletSprite = null;
     }
 
-    public UnitInfo(string name, Sprite sprite, int maxHp, int power, bool isNear, float attackRange, float attackSpeed, float speed, int giveCost, Sprite bulletSprite)
+    public UnitInfo(string name, Sprite sprite, int maxHp, int power, bool isNear, float attackRange, float attackSpeed, float speed, int giveCost, int cost, Sprite bulletSprite)
     {
         this.name = name;
         this.sprite = sprite;
@@ -52,6 +54,7 @@ public class UnitInfo
         this.attackRange = attackRange;
         this.attackSpeed = attackSpeed;
         this.speed = speed;
+        this.cost = cost;
         this.giveCost = giveCost;
         this.bulletSprite = bulletSprite;
     }
