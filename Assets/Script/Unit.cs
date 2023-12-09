@@ -101,4 +101,8 @@ public abstract class Unit : MonoBehaviour
 
 >>>>>>> Stashed changes
     public bool getIsRightTeam() { return isRightTeam; }
+<<<<<<< Updated upstream
+=======
+    public float getHpRatio() { return ((float)this.hp / (float)this.MaxHp); }
+>>>>>>> Stashed changes
 }

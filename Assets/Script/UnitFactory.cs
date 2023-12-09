@@ -86,8 +86,11 @@ public class UnitFactory : MonoBehaviour
         GameObject obj = Instantiate(unitBaseObject, position, Quaternion.Euler(position));
         BaseCamp baseCamp = obj.AddComponent<BaseCamp>();
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         baseCamp.Setting(BaseCamp, null, isRight);
 =======
+=======
+>>>>>>> Stashed changes
         obj.GetComponent<Animator>().enabled = false;
         baseCamp.Setting(BaseCamp, null, isRightTeam);
         obj.SetActive(true);
