@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -20,14 +20,14 @@ public class GameManager : MonoBehaviour
     private float homeHealth = 100;
     private float awayHealth = 100;
 
-    private int Gold = 0;
+    private int Gold = 200;
     private int Exp = 0;
     private int UsedGold = 0;
     private int currentLv = 1;
 
     private Text goldText;
     private Text expText;
-
+    private Text textUnit;
     private UnitFactory unitFactory;
 
 
@@ -35,8 +35,9 @@ public class GameManager : MonoBehaviour
     private Slider homeHealthBar;
     private Slider awayHealthBar;
 
-    private Vector3 homeBaseVec = new Vector3(-4, -4.5f, -1);
-    private Vector3 awayBaseVec = new Vector3(24, -4.5f, -1);
+    private Vector3 turretVec = new Vector3(-4, -1, -1);
+    private Vector3 homeBaseVec = new Vector3(-4, -3f, -1);
+    private Vector3 awayBaseVec = new Vector3(24, -3f, -1);
     public Queue<string> unitQueue = new Queue<string>();
 
     public GameObject homeBase;
@@ -79,6 +80,7 @@ public class GameManager : MonoBehaviour
     {
         goldText = GameObject.Find("GoldNum").GetComponent<Text>();
         expText = GameObject.Find("ExpNum").GetComponent<Text>();
+        textUnit = GameObject.Find("NextUnit").GetComponent<Text>();
         unitCoolBar = GameObject.Find("UnitCoolSlider").GetComponent<Slider>();
         homeHealthBar = GameObject.Find("HealthbarHome").GetComponent<Slider>();
         awayHealthBar = GameObject.Find("HealthbarAway").GetComponent<Slider>();
@@ -116,7 +118,8 @@ public class GameManager : MonoBehaviour
         }
         if (unitQueue.Count > 0)
         {
-            
+            string unitName = unitQueue.Peek();
+            textUnit.text = unitName;
             if (curTime == 0)
             {
                 curTime = MaxTime;
@@ -226,7 +229,27 @@ public class GameManager : MonoBehaviour
 
     public void BuyTurret()
     {
-
+        if (Gold >= 150 && currentLv == 2&&turretVec.y <= 0)
+        {
+            Gold -= 150;
+            UsedGold += 150;
+            unitFactory.CreateTower("tower1",turretVec,false);
+            turretVec.y += 1;
+        }
+        else if (Gold >= 250 && currentLv == 3 && turretVec.y <= 1)
+        {
+            Gold -= 250;
+            UsedGold += 250;
+            unitFactory.CreateTower("tower2", turretVec, false);
+            turretVec.y += 1;
+        }
+        else if (Gold >= 350 && currentLv ==4 && turretVec.y <= 2)
+        {
+            Gold -= 350;
+            UsedGold += 350;
+            unitFactory.CreateTower("tower3", turretVec, false);
+            turretVec.y += 1;
+        }
     }
 
     public int GetUsedGold()
@@ -238,13 +261,20 @@ public class GameManager : MonoBehaviour
     {
         return currentLv;
     }
-    public void killGold(int gold)
+    public void killGold(Unit enemy)
+    {
+        Gold += killGold;
+    }
+
+    public void killExp(int killExp,bool isEnemy)
     {
 
     }
 
-    public void killExp(int exp)
+    public void killExp(Unit enemy)
     {
 
     }
+
+
 }

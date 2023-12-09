@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class EnemyBaseControl : MonoBehaviour
 {
-    private Vector3 awayBaseVec = new Vector3(24, -4.5f, -1);
-    private UnitFactory unitFactory;
+    private Vector3 awayBaseVec = new Vector3(24, -3f, -1);
+    public UnitFactory unitFactory;
     private int totalGold = 0;
     private int currentLV = 1;
     private int cost = 100;
