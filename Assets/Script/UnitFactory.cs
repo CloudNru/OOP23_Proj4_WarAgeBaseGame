@@ -112,6 +112,8 @@ public class UnitFactory : MonoBehaviour
     {
         GameObject obj = Instantiate(unitBaseObject, position, Quaternion.Euler(Vector3.up * (isRightTeam ? 180 : 0)));
         BaseCamp baseCamp = obj.AddComponent<BaseCamp>();
+        baseCamp.Setting(BaseCamp, null, isRight);
+        obj.GetComponent<Animator>().enabled = false;
         baseCamp.Setting(BaseCamp, null, isRightTeam);
         obj.SetActive(true);
 

@@ -95,5 +95,5 @@ public abstract class Unit : MonoBehaviour
     }
 
     public bool getIsRightTeam() { return isRightTeam; }
-    public float getHpRatio() { return this.hp / this.MaxHp; }
+    public float getHpRatio() { return ((float)this.hp / (float)this.MaxHp); }
 }
