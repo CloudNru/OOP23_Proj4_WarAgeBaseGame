@@ -6,9 +6,13 @@ public class BaseCamp : Unit
 {
     private List<Sprite> spriteList;
 
-    public void setImage(Sprite[] sprites)
+    public void setImageInfo(List<Sprite> sprites)
     {
-
+        if(sprites != null && sprites.Count > 0)
+        {
+            spriteList = sprites;
+            this.spriteRenderer.sprite = spriteList[0];
+        }
     }
 
     public void upgradeImage(int level)

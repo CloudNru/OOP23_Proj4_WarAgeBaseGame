@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEditor.Sprites;
 using UnityEngine;
@@ -13,10 +14,13 @@ public class UnitFactory : MonoBehaviour
 
     private Dictionary<string, UnitInfo> data;
     private UnitInfo BaseCamp;
+    private Dictionary<string, List<Sprite>> spriteList;
 
     public void FileLoad()
     {
         data = new Dictionary<string, UnitInfo>();
+        spriteList = new Dictionary<string, List<Sprite>>();
+        Regex regex = new Regex(@"BaseCamp_\d\d\d");
         if (File.Exists("Assets/Prefab/UnitBase.prefab"))
         {
             unitBaseObject = PrefabUtility.LoadPrefabContents("Assets/Prefab/UnitBase.prefab");
@@ -34,14 +38,28 @@ public class UnitFactory : MonoBehaviour
             }
 
             string[] tmp = t.Split(':');
-            if (tmp[0] == "BaseCamp")
+            if (regex.IsMatch(tmp[0]))
             {
-                byte[] TextureData = File.ReadAllBytes("Assets/Resource/" + tmp[1]);
-                Texture2D texture = new Texture2D(1, 1);
-                texture.LoadImage(TextureData);
-                Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f), 2000);
+                string[] textureTexts = tmp[1].Split('/');
+                List<Sprite> sprites = new List<Sprite>();
+                foreach (string textureText in textureTexts)
+                {
+                    if(File.Exists("Assets/Resource/" + textureText))
+                    {
+                        byte[] TextureData = File.ReadAllBytes("Assets/Resource/" + textureText);
+                        Texture2D texture = new Texture2D(1, 1);
+                        texture.LoadImage(TextureData);
+                        Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f), 2000);
+                        if (sprite != null)
+                        {
+                            sprites.Add(sprite);
+                        }
+                    }
+                }
 
-                BaseCamp = new UnitInfo(tmp[0], sprite, int.Parse(tmp[2]), int.Parse(tmp[3]), tmp[4] == "Near" ? true : false, float.Parse(tmp[5]), float.Parse(tmp[6]), float.Parse(tmp[7]), int.Parse(tmp[8]), int.Parse(tmp[9]));
+                spriteList.Add(tmp[0], sprites);
+
+                BaseCamp = new UnitInfo(tmp[0], null, int.Parse(tmp[2]), int.Parse(tmp[3]), tmp[4] == "Near" ? true : false, float.Parse(tmp[5]), float.Parse(tmp[6]), float.Parse(tmp[7]), int.Parse(tmp[8]), int.Parse(tmp[9]));
                 Debug.Log(tmp[0] + " " + BaseCamp);
             }
             else if (tmp.Length == 10)
@@ -103,6 +121,27 @@ public class UnitFactory : MonoBehaviour
         return obj;
     }
 
+    public GameObject CreateBaseCamp(string campName, bool isRightTeam)
+    {
+        return CreateBaseCamp(name, isRightTeam, Vector3.zero);
+    }
+
+    public GameObject CreateBaseCamp(string campName, bool isRightTeam, Vector3 position)
+    {
+        if (!spriteList.ContainsKey(campName))
+        {
+            return null;
+        }
+
+        GameObject obj = Instantiate(unitBaseObject, position, Quaternion.Euler(Vector3.up * (isRightTeam ? 180 : 0)));
+        BaseCamp baseCamp = obj.AddComponent<BaseCamp>();
+        baseCamp.Setting(BaseCamp, null, isRightTeam);
+        baseCamp.setImageInfo(spriteList[campName]);
+        obj.SetActive(true);
+
+        return obj;
+    }
+
     public GameObject CreateBaseCamp(bool isRightTeam)
     {
         return CreateBaseCamp(isRightTeam, Vector3.zero);
@@ -112,9 +151,8 @@ public class UnitFactory : MonoBehaviour
     {
         GameObject obj = Instantiate(unitBaseObject, position, Quaternion.Euler(Vector3.up * (isRightTeam ? 180 : 0)));
         BaseCamp baseCamp = obj.AddComponent<BaseCamp>();
-        baseCamp.Setting(BaseCamp, null, isRight);
-        obj.GetComponent<Animator>().enabled = false;
         baseCamp.Setting(BaseCamp, null, isRightTeam);
+        baseCamp.setImageInfo(spriteList[isRightTeam ? "BaseCamp_310" : "BaseCamp_208"]);
         obj.SetActive(true);
 
         return obj;
