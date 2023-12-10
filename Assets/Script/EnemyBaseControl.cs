@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,7 +8,8 @@ public class EnemyBaseControl : MonoBehaviour
     public UnitFactory unitFactory;
     private int totalGold = 0;
     private int currentLV = 1;
-    private int cost = 100;
+    private int time = 3000;
+    [SerializeField]
     private int spawnState = 1;
     // Update is called once per frame
     private void Start()
@@ -38,7 +39,7 @@ public class EnemyBaseControl : MonoBehaviour
             {
                 unitFactory.CreateMonster("C#Enemy", awayBaseVec, true);
                 totalGold += unitFactory.getUnitCost("C#Enemy");
-                spawnState = Random.Range(1, 2);
+                spawnState = Random.Range(1, 3);
             }
 
         }
@@ -48,19 +49,19 @@ public class EnemyBaseControl : MonoBehaviour
             {
                 unitFactory.CreateMonster("FlutterEnemy", awayBaseVec, true);
                 totalGold +=unitFactory.getUnitCost("FlutterEnemy");
-                spawnState = Random.Range(1, 3);
+                spawnState = Random.Range(1, 4);
             }
             else if (GameManager.Instance.GetUsedGold() >= totalGold +unitFactory.getUnitCost("LinuxEnemy") && spawnState == 2)
             {
                 unitFactory.CreateMonster("LinuxEnemy", awayBaseVec, true);
                 totalGold +=unitFactory.getUnitCost("LinuxEnemy");
-                spawnState = Random.Range(1, 3);
+                spawnState = Random.Range(1, 4);
             }
             else if (GameManager.Instance.GetUsedGold() >= totalGold + unitFactory.getUnitCost("C#Enemy") && spawnState == 3)
             {
                 unitFactory.CreateMonster("C#Enemy", awayBaseVec, true);
                 totalGold += unitFactory.getUnitCost("C#Enemy");
-                spawnState = Random.Range(1, 3);
+                spawnState = Random.Range(1, 4);
             }
         }
         else if(currentLV == 4)
@@ -69,29 +70,35 @@ public class EnemyBaseControl : MonoBehaviour
             {
                 unitFactory.CreateMonster("CEnemy", awayBaseVec, true);
                 totalGold += unitFactory.getUnitCost("CEnemy");
-                spawnState = Random.Range(1, 4);
+                spawnState = Random.Range(1, 5);
             }
             else if (GameManager.Instance.GetUsedGold() >= totalGold + unitFactory.getUnitCost("LearningXEnemy") && spawnState == 2)
             {
                 unitFactory.CreateMonster("LearningXEnemy", awayBaseVec, true);
                 totalGold += unitFactory.getUnitCost("LearningXEnemy");
-                spawnState = Random.Range(1, 4);
+                spawnState = Random.Range(1, 5);
             }
             else if (GameManager.Instance.GetUsedGold() >= totalGold +unitFactory.getUnitCost("PythonEnemy") && spawnState == 3)
             {
                 unitFactory.CreateMonster("PythonEnemy", awayBaseVec, true);
                 totalGold += unitFactory.getUnitCost("PythonEnemy");
-                spawnState = Random.Range(1, 4);
+                spawnState = Random.Range(1, 5);
             }
             else if (GameManager.Instance.GetUsedGold() >= totalGold + unitFactory.getUnitCost("FlutterEnemy") && spawnState == 4)
             {
                 unitFactory.CreateMonster("FlutterEnemy", awayBaseVec, true);
                 totalGold += unitFactory.getUnitCost("FlutterEnemy");
-                spawnState = Random.Range(1, 4);
+                spawnState = Random.Range(1, 5);
             }
 
         }
-        
+        time -= 1;
+        if(time == 0)
+        {
+            time = 3000;
+            totalGold -= Random.Range(10, 21);
+
+        }
         currentLV = GameManager.Instance.GetLV();
     }
 }

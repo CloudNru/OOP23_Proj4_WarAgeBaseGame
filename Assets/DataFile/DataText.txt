@@ -2,23 +2,22 @@ BaseCamp_310:310-1.png/310-2.png:1000:0:Near:0:0:0:0:0
 BaseCamp_208:208-1.png/208-2.png/208-3.png/208-4.png:1000:0:Near:0:0:0:0:0
 
 FirstStudentMelee:FirstStudentMeleeWalk-1.png:100:10:Near:1:2.0:5:50:75
-SecondStudentMelee:SecondStudentMeleeWalk-1.png:300:30:Near:1:1.0:5:75:110
-ThirdStudentMelee:ThirdStudentMeleeWalk-1.png:200:20:Near:1:1.0:5:110:150
+SecondStudentMelee:SecondStudentMeleeWalk-1.png:200:20:Near:1:1.0:5:75:110
+ThirdStudentMelee:ThirdStudentMeleeWalk-1.png:300:30:Near:1:1.0:5:110:150
 FourthStudentMelee:FourthStudentMeleeWalk-1.png:400:50:Near:1:1.0:5:150:225
 
-FirstStudentRange:FirstStudentMeleeWalk-1.png:100:10:Far:7:2.0:5:50:75:RangeAmmo.png
-SecondStudentRange:SecondStudentMeleeWalk-1.png:300:30:Far:7:1.0:5:75:110:RangeAmmo.png
-ThirdStudentRange:ThirdStudentMeleeWalk-1.png:200:20:Far:7:1.0:5:110:150:RangeAmmo.png
-FourthStudentRange:FourthStudentMeleeWalk-1.png:400:50:Far:7:1.0:5:150:225:RangeAmmo.png
-
+FirstStudentRange:FirstStudentMeleeWalk-1.png:70:15:Far:7:2.0:5:50:75:RangeAmmo.png
+SecondStudentRange:SecondStudentMeleeWalk-1.png:150:25:Far:7:1.0:5:75:110:RangeAmmo.png
+ThirdStudentRange:ThirdStudentMeleeWalk-1.png:200:30:Far:7:1.0:5:110:150:RangeAmmo.png
+FourthStudentRange:FourthStudentMeleeWalk-1.png:350:60:Far:7:1.0:5:150:225:RangeAmmo.png
 tower1:Turret-1.png:1:5:Far:10:2.0:0:150:0:TurretAmmo-1.png
 tower2:Turret-2.png:1:10:Far:10:2.0:0:250:0:TurretAmmo-2.png
 tower3:Turret-3.png:1:15:Far:10:2.0:0:350:0:TurretAmmo-3.png
 
 CEnemy:CEnemy.png:100:10:Near:1:2.0:5:50:75
-C#Enemy:C#Enemy.png:100:10:Near:1:2.0:5:50:75
-FlutterEnemy:FlutterEnemy.png:100:10:Near:1:2.0:5:50:75
-LinuxEnemy:LinuxEnemy.png:100:10:Far:1:2.0:5:50:75:EnemyAmmo
-LearningXEnemy:EnemyRange-1.png:100:10:Near:1:2.0:5:50:75
-PythonEnemy:PythonEnemy.png:100:10:Near:1:2.0:5:50:75
-//ÀÌ¸§:sprite¸í:Ã¼·Â:°ø°Ý·Â:°ø°Ý¹æ½Ä:°ø°Ý¹üÀ§:°ø°Ý¼Óµµ:ÀÌµ¿¼Óµµ:ºñ¿ë:º¸»ó:ÃÑ¾Ësprite(¼±ÅÃ)
+C#Enemy:C#Enemy.png:200:20:Near:1:2.0:5:50:75
+FlutterEnemy:FlutterEnemy.png:300:20:Near:1:2.0:5:50:75
+LinuxEnemy:LinuxEnemy.png:200:30:Far:1:2.0:5:50:75:EnemyAmmo
+LearningXEnemy:EnemyRange-1.png:400:50:Near:1:2.0:5:50:75
+PythonEnemy:PythonEnemy.png:500:30:Near:1:2.0:5:50:75
+//ï¿½Ì¸ï¿½:spriteï¿½ï¿½:Ã¼ï¿½ï¿½:ï¿½ï¿½ï¿½Ý·ï¿½:ï¿½ï¿½ï¿½Ý¹ï¿½ï¿½:ï¿½ï¿½ï¿½Ý¹ï¿½ï¿½ï¿½:ï¿½ï¿½ï¿½Ý¼Óµï¿½:ï¿½Ìµï¿½ï¿½Óµï¿½:ï¿½ï¿½ï¿½:ï¿½ï¿½ï¿½ï¿½:ï¿½Ñ¾ï¿½sprite(ï¿½ï¿½ï¿½ï¿½)
