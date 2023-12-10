@@ -8,6 +8,7 @@ using UnityEditor.Animations;
 using UnityEditor.Sprites;
 using UnityEditorInternal;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class UnitFactory : MonoBehaviour
 {
@@ -117,8 +118,16 @@ public class UnitFactory : MonoBehaviour
         }
 
         GameObject obj = Instantiate(unitBaseObject, position, Quaternion.Euler(Vector3.up * (isRightTeam ? 180 : 0)));
-        Monster monster = obj.AddComponent<Monster>();
-        monster.Setting(data[name], new StudentStateControler(monster), isRightTeam);
+        if (data[name].isNear)
+        {
+            Monster monster = obj.AddComponent<Monster>();
+            monster.Setting(data[name], new StudentStateControler(monster), isRightTeam);
+        }
+        else
+        {
+            BackMonster monster = obj.AddComponent<BackMonster>();
+            monster.Setting(data[name], null, isRightTeam);
+        }
         obj.AddComponent<BoxCollider2D>().isTrigger = true;
         obj.SetActive(true);
         return obj;
@@ -126,7 +135,7 @@ public class UnitFactory : MonoBehaviour
 
     public GameObject CreateBaseCamp(string campName, bool isRightTeam)
     {
-        return CreateBaseCamp(name, isRightTeam, Vector3.zero);
+        return CreateBaseCamp(campName, isRightTeam, Vector3.zero);
     }
 
     public GameObject CreateBaseCamp(string campName, bool isRightTeam, Vector3 position)

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Monster : Unit
 {
-    private int direction;
+    protected int direction;
 
     public override void Setting(UnitInfo info, StateController controller, bool isRightTeam)
     {
@@ -26,7 +26,13 @@ public class Monster : Unit
     // Update is called once per frame
     void Update()
     {
-        RaycastHit2D[] hits = Physics2D.BoxCastAll(this.transform.position + new Vector3(direction * this.attackRange / 2, 0 ,0), new Vector2(this.attackRange, 2), 0, Vector2.zero);
+        detectEnemy();
+        this.stateController.Update();
+    }
+
+    protected void detectEnemy()
+    {
+        RaycastHit2D[] hits = Physics2D.BoxCastAll(this.transform.position + new Vector3(direction * this.attackRange / 2, 0, 0), new Vector2(this.attackRange, 2), 0, Vector2.zero);
         //Debug.Log(hits.Length);
 
         bool isRight = false;
@@ -34,18 +40,18 @@ public class Monster : Unit
         {
             foreach (RaycastHit2D hit in hits)
             {
-                if(!ReferenceEquals(hit.collider.gameObject, this.gameObject))
+                if (!ReferenceEquals(hit.collider.gameObject, this.gameObject))
                 {
                     Unit tmp = hit.transform.gameObject.GetComponent<Unit>();
-                    if(tmp != null && tmp.getIsRightTeam() != this.isRightTeam)
+                    if (tmp != null && tmp.getIsRightTeam() != this.isRightTeam)
                     {
-                        if(this.target == null)
+                        if (this.target == null)
                         {
                             isRight = true;
                             this.target = tmp;
                             stateController.SetFlag("isDetectEnemy", true);
                         }
-                        else if(ReferenceEquals(this.target, tmp))
+                        else if (ReferenceEquals(this.target, tmp))
                         {
                             isRight = true;
                         }
@@ -59,11 +65,10 @@ public class Monster : Unit
             stateController.SetFlag("isDetectEnemy", false);
             this.target = null;
         }
-        if(attackCoolTime > 0)
+        if (attackCoolTime > 0)
         {
             attackCoolTime -= Time.deltaTime / this.attackSpeed;
         }
-        this.stateController.Update();
     }
 
     private void OnDrawGizmos()
