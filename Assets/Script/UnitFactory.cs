@@ -119,6 +119,7 @@ public class UnitFactory : MonoBehaviour
         GameObject obj = Instantiate(unitBaseObject, position, Quaternion.Euler(Vector3.up * (isRightTeam ? 180 : 0)));
         Monster monster = obj.AddComponent<Monster>();
         monster.Setting(data[name], new StudentStateControler(monster), isRightTeam);
+        obj.AddComponent<BoxCollider2D>().isTrigger = true;
         obj.SetActive(true);
         return obj;
     }
@@ -157,6 +158,7 @@ public class UnitFactory : MonoBehaviour
         BaseCamp baseCamp = obj.AddComponent<BaseCamp>();
         baseCamp.Setting(BaseCamp, null, isRightTeam);
         baseCamp.setImageInfo(spriteList[isRightTeam ? "BaseCamp_310" : "BaseCamp_208"]);
+        obj.AddComponent<BoxCollider2D>().isTrigger = true;
         obj.SetActive(true);
 
         return obj;

@@ -37,8 +37,8 @@ public class GameManager : MonoBehaviour
     private Queue<string> unitQueue = new Queue<string>();
 
 
-    private GameObject homeBase;
-    private GameObject awayBase;
+    private BaseCamp homeBase;
+    private BaseCamp awayBase;
     private Image[] unitImg;
 
     // Start is called before the first frame update
@@ -94,8 +94,8 @@ public class GameManager : MonoBehaviour
             unitImg[i] = GameObject.Find("UnitImg" + (i + 1)).GetComponent<Image>();
         }
 
-        homeBase = unitFactory.CreateBaseCamp(false, homeBaseVec);
-        awayBase = unitFactory.CreateBaseCamp(true, awayBaseVec);
+        homeBase = unitFactory.CreateBaseCamp(false, homeBaseVec).GetComponent<BaseCamp>();
+        awayBase = unitFactory.CreateBaseCamp(true, awayBaseVec).GetComponent<BaseCamp>();
         //StartCoroutine(StartIncrementing());
     }
 
@@ -105,8 +105,8 @@ public class GameManager : MonoBehaviour
         goldText.text = Gold.ToString();
         expText.text = Exp.ToString();
 
-        homeHealthBar.value = homeBase.GetComponent<BaseCamp>().getHpRatio();
-        awayHealthBar.value = awayBase.GetComponent<BaseCamp>().getHpRatio();
+        homeHealthBar.value = homeBase.getHpRatio();
+        awayHealthBar.value = awayBase.getHpRatio();
 
         Debug.Log(unitQueue.Count);
 
@@ -134,7 +134,7 @@ public class GameManager : MonoBehaviour
             }
             curTime -= 1;
         }
-        if(homeBase.GetComponent<BaseCamp>().getHpRatio() == 0)
+        if(homeBase.getHpRatio() == 0)
         {
             restartButton.gameObject.SetActive(true);
 
@@ -164,21 +164,24 @@ public class GameManager : MonoBehaviour
     {
         if (Exp >= 100 && currentLv == 1)
         {
+            Debug.Log("Upgrade! Level2");
+            homeBase.upgradeImage(1);
             currentLv = 2;
             MaxTime = 450;
-            homeBase.GetComponent<BaseCamp>().upgradeImage(1)
         }
         else if(Exp >= 200 && currentLv == 2)
         {
+            Debug.Log("Upgrade! Level3");
             currentLv = 3;
             MaxTime = 500;
-            homeBase.GetComponent<BaseCamp>().upgradeImage(2)
+            homeBase.upgradeImage(2);
         }
         else if(Exp >=300 && currentLv == 3)
         {
+            Debug.Log("Upgrade! Level4");
             currentLv = 4;
             MaxTime = 550;
-            homeBase.GetComponent<BaseCamp>().upgradeImage(3)
+            homeBase.upgradeImage(3);
         }
     }
 

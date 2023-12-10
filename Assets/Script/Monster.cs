@@ -107,35 +107,26 @@ public class Monster : Unit
 
     private string getAnimationKey()
     {
-        string result = "";
-        if (this.isNear)
-        {
-            result = "Melee";
-        }
-        else
-        {
-            result = "Range";
-        }
-
         switch (this.unitName)
         {
-            case "FirstStudent":
-                result += "1";
-                break;
-            case "SecondStudent":
-                result += "2";
-                break;
-            case "ThirdStudent":
-                result += "3";
-                break;
-            case "FourthStudent":
-                result += "4";
-                break;
+            case "FirstStudentMelee":
+                return "Melee1";
+            case "SecondStudentMelee":
+                return "Melee2";
+            case "ThirdStudentMelee":
+                return "Melee3";
+            case "FourthStudentMelee":
+                return "Melee4";
+            case "FirstStudentRange":
+                return "Range1";
+            case "SecondStudentRange":
+                return "Range2";
+            case "ThirdStudentRange":
+                return "Range3";
+            case "FourthStudentRange":
+                return "Range4";
             default:
-                result += "Error";
-                break;
+                return "Error";
         }
-
-        return result;
     }
 }
