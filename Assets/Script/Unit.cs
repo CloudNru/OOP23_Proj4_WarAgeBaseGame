@@ -105,7 +105,7 @@ public abstract class Unit : MonoBehaviour
 
     public virtual void onDestory()
     {
-        GameManager.Instance.killGold(this.giveCost,true);
+        GameManager.Instance.killGold(this.giveCost,isRightTeam);
         Destroy(this.gameObject);
     }
 

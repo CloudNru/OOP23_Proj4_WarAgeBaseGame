@@ -16,11 +16,12 @@ public class GameManager : MonoBehaviour
 
     private float curTime = 0f;
 
-    private int Gold = 200;
-    private int Exp = 0;
+    public int Gold = 200;
+    public int Exp = 0;
     private int UsedGold = 0;
     private int currentLv = 1;
 
+    private Text gameoverText;
     private Text goldText;
     private Text expText;
     private Text textUnit;
@@ -75,7 +76,7 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
-
+        gameoverText = GameObject.Find("RestartText").GetComponent<Text>();
         goldText = GameObject.Find("GoldNum").GetComponent<Text>();
         expText = GameObject.Find("ExpNum").GetComponent<Text>();
         textUnit = GameObject.Find("NextUnit").GetComponent<Text>();
@@ -134,10 +135,24 @@ public class GameManager : MonoBehaviour
             }
             curTime -= 1;
         }
+<<<<<<< Updated upstream
         if(homeBase.GetComponent<BaseCamp>().getHpRatio() == 0)
+=======
+        if(homeBase.getHpRatio() <= 0)
+>>>>>>> Stashed changes
         {
+            
+            gameoverText.text = "GAMEOVER";
             restartButton.gameObject.SetActive(true);
+            Time.timeScale = 0f;
 
+        }
+        if (awayBase.getHpRatio() <= 0)
+        {
+            
+            gameoverText.text = "VICTORY";
+            restartButton.gameObject.SetActive(true);
+            Time.timeScale = 0f;
         }
         unitCoolBar.value = curTime / MaxTime;
     }
@@ -275,8 +290,12 @@ public class GameManager : MonoBehaviour
     }
     public void killGold(int killGold, bool isEnemy)
     {
-        Gold += killGold;
-        Exp += 10;
+        if (isEnemy)
+        {
+            Gold += killGold;
+            Exp += 10;
+        }
+        
     }
 
     public void killExp(int killExp,bool isEnemy)
