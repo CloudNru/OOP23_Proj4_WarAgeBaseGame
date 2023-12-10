@@ -24,10 +24,7 @@ public class UnitFactory : MonoBehaviour
         data = new Dictionary<string, UnitInfo>();
         spriteList = new Dictionary<string, List<Sprite>>();
         Regex regex = new Regex(@"BaseCamp_\d\d\d");
-        if (File.Exists("Assets/Prefab/UnitBase.prefab"))
-        {
-            unitBaseObject = PrefabUtility.LoadPrefabContents("Assets/Prefab/UnitBase.prefab");
-        }
+        unitBaseObject = (GameObject)Resources.Load("UnitBase");
         string[] datas = new string[0];
         if (File.Exists("Assets/DataFile/DataText.txt"))
         {
