@@ -44,7 +44,7 @@ public class UnitInfo
         this.bulletSprite = null;
     }
 
-    public UnitInfo(string name, Sprite sprite, int maxHp, int power, bool isNear, float attackRange, float attackSpeed, float speed, int giveCost, int cost, Sprite bulletSprite)
+    public UnitInfo(string name, Sprite sprite, int maxHp, int power, bool isNear, float attackRange, float attackSpeed, float speed, int cost, int giveCost, Sprite bulletSprite)
     {
         this.name = name;
         this.sprite = sprite;
