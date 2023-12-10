@@ -96,7 +96,7 @@ public class GameManager : MonoBehaviour
 
         homeBase = unitFactory.CreateBaseCamp(false, homeBaseVec);
         awayBase = unitFactory.CreateBaseCamp(true, awayBaseVec);
-        StartCoroutine(StartIncrementing());
+        //StartCoroutine(StartIncrementing());
     }
 
     // Update is called once per frame
@@ -166,85 +166,76 @@ public class GameManager : MonoBehaviour
         {
             currentLv = 2;
             MaxTime = 450;
+            homeBase.GetComponent<BaseCamp>().upgradeImage(1)
         }
         else if(Exp >= 200 && currentLv == 2)
         {
             currentLv = 3;
             MaxTime = 500;
+            homeBase.GetComponent<BaseCamp>().upgradeImage(2)
         }
         else if(Exp >=300 && currentLv == 3)
         {
             currentLv = 4;
             MaxTime = 550;
+            homeBase.GetComponent<BaseCamp>().upgradeImage(3)
         }
     }
 
     public void BuyUnitMelee()
     {
-        if (Gold >= unitFactory.getUnitCost("FirstStudent") && currentLv == 1 && unitQueue.Count<5)
+        if (Gold >= unitFactory.getUnitCost("FirstStudentMelee") && currentLv == 1 && unitQueue.Count<5)
         {
-            UsedGold += unitFactory.getUnitCost("FirstStudent");
-            Gold -= unitFactory.getUnitCost("FirstStudent");
-            unitQueue.Enqueue("FirstStudent");
+            UsedGold += unitFactory.getUnitCost("FirstStudentMelee");
+            Gold -= unitFactory.getUnitCost("FirstStudentMelee");
+            unitQueue.Enqueue("FirstStudentMelee");
         }
-        else if (Gold >= unitFactory.getUnitCost("FirstStudent") && currentLv == 2 && unitQueue.Count < 5)
+        else if (Gold >= unitFactory.getUnitCost("SecondStudentMelee") && currentLv == 2 && unitQueue.Count < 5)
         {
-            UsedGold += 200;
-            Gold -= 200;
-            UsedGold += unitFactory.getUnitCost("SecondStudent");
-            Gold -= unitFactory.getUnitCost("SecondStudent");
-            unitQueue.Enqueue("SecondStudent");
+            UsedGold += unitFactory.getUnitCost("SecondStudentMelee");
+            Gold -= unitFactory.getUnitCost("SecondStudentMelee");
+            unitQueue.Enqueue("SecondStudentMelee");
         }
-        else if (Gold >= unitFactory.getUnitCost("FirstStudent") && currentLv == 3 && unitQueue.Count < 5)
+        else if (Gold >= unitFactory.getUnitCost("ThirdStudentMelee") && currentLv == 3 && unitQueue.Count < 5)
         {
-            UsedGold += 300;
-            Gold -= 300;
-            UsedGold += unitFactory.getUnitCost("ThirdStudent");
-            Gold -= unitFactory.getUnitCost("ThirdStudent");
-            unitQueue.Enqueue("ThirdStudent");
+
+            UsedGold += unitFactory.getUnitCost("ThirdStudentMelee");
+            Gold -= unitFactory.getUnitCost("ThirdStudentMelee");
+            unitQueue.Enqueue("ThirdStudentMelee");
         }
-        else if(Gold >= unitFactory.getUnitCost("FirstStudent") && currentLv == 4 && unitQueue.Count < 5)
+        else if(Gold >= unitFactory.getUnitCost("FourthStudentMelee") && currentLv == 4 && unitQueue.Count < 5)
         {
-            UsedGold += 400;
-            Gold -= 400;
-            UsedGold += unitFactory.getUnitCost("FourthStudent");
-            Gold -= unitFactory.getUnitCost("FourthStudent");
-            unitQueue.Enqueue("FourthStudent");
+
+            UsedGold += unitFactory.getUnitCost("FourthStudentMelee");
+            Gold -= unitFactory.getUnitCost("FourthStudentMelee");
+            unitQueue.Enqueue("FourthStudentMelee");
         }
     }
     public void BuyUnitRange()
     {
-        if (Gold >= unitFactory.getUnitCost("FirstStudent") && currentLv == 1 && unitQueue.Count < 5)
+        if (Gold >= unitFactory.getUnitCost("FirstStudentRange") && currentLv == 1 && unitQueue.Count < 5)
         {
-            UsedGold += 100;
-            Gold -= 100;
-            UsedGold += unitFactory.getUnitCost("FirstStudent");
-            Gold -= unitFactory.getUnitCost("FirstStudent");
-            unitQueue.Enqueue("FirstStudent");
+            UsedGold += unitFactory.getUnitCost("FirstStudentRange");
+            Gold -= unitFactory.getUnitCost("FirstStudentRange");
+            unitQueue.Enqueue("FirstStudentRange");
         }
-        else if (Gold >= unitFactory.getUnitCost("FirstStudent") && currentLv == 2 && unitQueue.Count < 5)
+        else if (Gold >= unitFactory.getUnitCost("SecondStudentRange") && currentLv == 2 && unitQueue.Count < 5)
         {
-            UsedGold += 200;
-            Gold -= 200;
-            UsedGold += unitFactory.getUnitCost("FirstStudent");
-            Gold -= unitFactory.getUnitCost("FirstStudent");
-            unitQueue.Enqueue("SecondStudent");
+            UsedGold += unitFactory.getUnitCost("SecondStudentRange");
+            Gold -= unitFactory.getUnitCost("SecondStudentRange");
+            unitQueue.Enqueue("SecondStudentRange");
         }
-        else if (Gold >= unitFactory.getUnitCost("FirstStudent") && currentLv == 3 && unitQueue.Count < 5)
+        else if (Gold >= unitFactory.getUnitCost("ThirdStudentRange") && currentLv == 3 && unitQueue.Count < 5)
         {
-            UsedGold += 300;
-            Gold -= 300;
-            UsedGold += unitFactory.getUnitCost("FirstStudent");
-            Gold -= unitFactory.getUnitCost("FirstStudent");
-            unitQueue.Enqueue("ThirdStudent");
+            UsedGold += unitFactory.getUnitCost("ThirdStudentRange");
+            Gold -= unitFactory.getUnitCost("ThirdStudentRange");
+            unitQueue.Enqueue("ThirdStudentRange");
         }
-        else if (Gold >= unitFactory.getUnitCost("FirstStudent") && currentLv == 4 && unitQueue.Count < 5)
+        else if (Gold >= unitFactory.getUnitCost("FourthStudentRange") && currentLv == 4 && unitQueue.Count < 5)
         {
-            UsedGold += 400;
-            Gold -= 400;
-            UsedGold += unitFactory.getUnitCost("FirstStudent");
-            Gold -= unitFactory.getUnitCost("FirstStudent");
-            unitQueue.Enqueue("FourthStudent");
+            UsedGold += unitFactory.getUnitCost("FourthStudentRange");
+            Gold -= unitFactory.getUnitCost("FourthStudentRange");
+            unitQueue.Enqueue("FourthStudentRange");
         }
     }
 
@@ -285,6 +276,7 @@ public class GameManager : MonoBehaviour
     public void killGold(int killGold, bool isEnemy)
     {
         Gold += killGold;
+        Exp += 10;
     }
 
     public void killExp(int killExp,bool isEnemy)
@@ -292,8 +284,4 @@ public class GameManager : MonoBehaviour
         Exp += killExp;
     }
 
-    public void killExp(Unit enemy)
-    {
-
-    }
 }
