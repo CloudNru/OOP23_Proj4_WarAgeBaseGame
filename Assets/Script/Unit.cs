@@ -26,6 +26,8 @@ public abstract class Unit : MonoBehaviour
 
     [SerializeField] protected SpriteRenderer spriteRenderer;
     [SerializeField] protected StateController stateController;
+    [SerializeField] protected Animator animator;
+
 
     [SerializeField] protected Sprite bulletSprite;
 
@@ -37,6 +39,10 @@ public abstract class Unit : MonoBehaviour
         {
             spriteRenderer = this.gameObject.GetComponent<SpriteRenderer>();
             spriteRenderer.sprite = info.sprite;
+        }
+        if (this.gameObject.GetComponent<Animator>() != null)
+        {
+            animator = this.gameObject.GetComponent<Animator>();
         }
         power = info.power;
         MaxHp = info.MaxHp;
@@ -70,7 +76,9 @@ public abstract class Unit : MonoBehaviour
 
                 obj.transform.position = this.transform.position;
                 obj.transform.rotation = Quaternion.identity;
-                obj.AddComponent<SpriteRenderer>().sprite = bulletSprite;
+                SpriteRenderer ren =  obj.AddComponent<SpriteRenderer>();
+                ren.sprite = bulletSprite;
+                ren.sortingOrder = 4;
                 obj.AddComponent<Bullet>().Setting(this.target, this.power);
                 obj.SetActive(true);
             }

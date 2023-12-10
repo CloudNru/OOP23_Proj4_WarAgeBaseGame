@@ -9,8 +9,9 @@ public class Monster : Unit
     public override void Setting(UnitInfo info, StateController controller, bool isRightTeam)
     {
         base.Setting(info, controller, isRightTeam);
-        this.stateController.StateLinkEnterAction(StudentStateControler.attackState, setColorRed);
-        this.stateController.StateLinkExitAction(StudentStateControler.attackState, setColorWhite);
+        this.stateController.StateLinkEnterAction(StudentStateControler.walkState, setWalkAnim);
+        this.stateController.StateLinkUpdateAction(StudentStateControler.attackState, Attack);
+        this.stateController.StateLinkEnterAction(StudentStateControler.attackState, setAttackReadyAnim);
     }
 
     // Start is called before the first frame update
@@ -19,6 +20,7 @@ public class Monster : Unit
         attackCoolTime = 0;
         stateController.SetFlag("isDead", false);
         direction = this.isRightTeam ? -1 : 1;
+        this.spriteRenderer.sortingOrder = 3;
     }
 
     // Update is called once per frame
@@ -71,21 +73,69 @@ public class Monster : Unit
 
     public override void Attack()
     {
-        if(attackCoolTime <= 0 && this.target != null)
+        if(this.target == null)
+        {
+            return;
+        }
+
+        if (attackCoolTime <= 0 )
         {
             base.Attack();
             Debug.Log("Attack!!!");
-            attackCoolTime = 2;
+            this.animator.Play(getAnimationKey() + "Attack");
+            attackCoolTime = 1;
+        }
+        else if(attackCoolTime < 0.5f)
+        {
+            this.animator.Play(getAnimationKey() + "Ready");
         }
     }
 
-    private void setColorRed()
+    private void setWalkAnim()
     {
-        this.gameObject.GetComponent<SpriteRenderer>().color = Color.red;
+        this.animator.Play(getAnimationKey() + "Walk");
     }
 
-    private void setColorWhite()
+    private void setAttackReadyAnim()
     {
-        this.gameObject.GetComponent<SpriteRenderer>().color = Color.white;
+        if(this.attackCoolTime > 0.5f)
+        {
+            this.attackCoolTime = 0.5f;
+            this.animator.Play(getAnimationKey() + "Ready");
+        }
+    }
+
+    private string getAnimationKey()
+    {
+        string result = "";
+        if (this.isNear)
+        {
+            result = "Melee";
+        }
+        else
+        {
+            result = "Range";
+        }
+
+        switch (this.unitName)
+        {
+            case "FirstStudent":
+                result += "1";
+                break;
+            case "SecondStudent":
+                result += "2";
+                break;
+            case "ThirdStudent":
+                result += "3";
+                break;
+            case "FourthStudent":
+                result += "4";
+                break;
+            default:
+                result += "Error";
+                break;
+        }
+
+        return result;
     }
 }

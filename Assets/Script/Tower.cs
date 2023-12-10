@@ -9,6 +9,7 @@ public class Tower : Unit
     {
         this.gameObject.name = unitName;
         this.gameObject.GetComponent<BoxCollider2D>().enabled = false;
+        this.spriteRenderer.sortingOrder = 2;
     }
 
     // Update is called once per frame

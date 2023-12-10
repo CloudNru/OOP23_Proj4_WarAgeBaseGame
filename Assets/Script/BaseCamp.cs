@@ -12,6 +12,7 @@ public class BaseCamp : Unit
         {
             spriteList = sprites;
             this.spriteRenderer.sprite = spriteList[0];
+            this.spriteRenderer.sortingOrder = 1;
         }
     }
 

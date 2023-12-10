@@ -51,7 +51,7 @@ public class UnitFactory : MonoBehaviour
                         byte[] TextureData = File.ReadAllBytes("Assets/Resource/" + textureText);
                         Texture2D texture = new Texture2D(1, 1);
                         texture.LoadImage(TextureData);
-                        Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f), 2000);
+                        Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f), 250);
                         if (sprite != null)
                         {
                             sprites.Add(sprite);
@@ -72,7 +72,7 @@ public class UnitFactory : MonoBehaviour
                     byte[] TextureData = File.ReadAllBytes("Assets/Resource/" + tmp[1]);
                     Texture2D texture = new Texture2D(1, 1);
                     texture.LoadImage(TextureData);
-                    Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f), 2000);
+                    Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f), 500);
 
                     data.Add(tmp[0], new UnitInfo(tmp[0], sprite, int.Parse(tmp[2]), int.Parse(tmp[3]), tmp[4] == "Near" ? true : false, float.Parse(tmp[5]), float.Parse(tmp[6]), float.Parse(tmp[7]), int.Parse(tmp[8]), int.Parse(tmp[9])));
                 }
@@ -85,12 +85,12 @@ public class UnitFactory : MonoBehaviour
                     byte[] TextureData = File.ReadAllBytes("Assets/Resource/" + tmp[1]);
                     Texture2D texture = new Texture2D(1, 1);
                     texture.LoadImage(TextureData);
-                    Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f), 2000);
+                    Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f), 250);
 
                     TextureData = File.ReadAllBytes("Assets/Resource/" + tmp[10]);
                     texture = new Texture2D(1, 1);
                     texture.LoadImage(TextureData);
-                    Sprite bulletSprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f), 300);
+                    Sprite bulletSprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f), 1000);
 
                     data.Add(tmp[0], new UnitInfo(tmp[0], sprite, int.Parse(tmp[2]), int.Parse(tmp[3]), tmp[4] == "Near" ? true : false, float.Parse(tmp[5]), float.Parse(tmp[6]), float.Parse(tmp[7]), int.Parse(tmp[8]), int.Parse(tmp[9]), bulletSprite));
                 }

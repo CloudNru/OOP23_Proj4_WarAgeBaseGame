@@ -15,15 +15,18 @@ public class Bullet : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
-
-        //transform.LookAt(target.transform);
-        transform.position = Vector3.Lerp(this.transform.position, target.transform.position, Time.deltaTime);
-
-        if (Vector3.Distance(this.transform.position, target.transform.position) <= 0.5f)
+        else
         {
-            target.GetDamaged(this.power);
-            Destroy(this.gameObject);
+            transform.position = this.transform.position +  Vector3.Normalize(target.transform.position - this.transform.position) * 4 * Time.deltaTime;
+            if (Vector3.Distance(this.transform.position, target.transform.position) <= 1f)
+            {
+                target.GetDamaged(this.power);
+                Destroy(this.gameObject);
+            }
         }
+
+
+        
     }
 
     public void Setting(Unit unit, int power)
