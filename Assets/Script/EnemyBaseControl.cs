@@ -33,7 +33,7 @@ public class EnemyBaseControl : MonoBehaviour
             {
                 unitFactory.CreateMonster("CEnemy", awayBaseVec, true);
                 totalGold += unitFactory.getUnitCost("CEnemy");
-                spawnState = Random.Range(1, 2);
+                spawnState = Random.Range(1, 3);
             }
             else if(GameManager.Instance.GetUsedGold() >= totalGold + unitFactory.getUnitCost("C#Enemy") && spawnState == 2)
             {

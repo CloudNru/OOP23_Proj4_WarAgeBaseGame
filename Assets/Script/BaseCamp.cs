@@ -31,5 +31,10 @@ public class BaseCamp : Unit
             return;
 
         this.hp -= damage / 2;
+
+        if(hp <= 0)
+        {
+            //onDestory();
+        }
     }
 }

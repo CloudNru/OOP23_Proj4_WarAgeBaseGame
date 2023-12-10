@@ -128,7 +128,6 @@ public class UnitFactory : MonoBehaviour
             BackMonster monster = obj.AddComponent<BackMonster>();
             monster.Setting(data[name], null, isRightTeam);
         }
-        obj.AddComponent<BoxCollider2D>().isTrigger = true;
         obj.SetActive(true);
         return obj;
     }
@@ -168,6 +167,7 @@ public class UnitFactory : MonoBehaviour
         baseCamp.Setting(BaseCamp, null, isRightTeam);
         baseCamp.setImageInfo(spriteList[isRightTeam ? "BaseCamp_310" : "BaseCamp_208"]);
         obj.AddComponent<BoxCollider2D>().isTrigger = true;
+        obj.name = isRightTeam ? "BaseCamp_310" : "BaseCamp_208";
         obj.SetActive(true);
 
         return obj;

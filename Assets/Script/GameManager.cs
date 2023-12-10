@@ -135,22 +135,27 @@ public class GameManager : MonoBehaviour
             }
             curTime -= 1;
         }
-        if(homeBase.GetComponent<BaseCamp>().getHpRatio() == 0)
+        if(homeBase.getHpRatio() <= 0 || awayBase.getHpRatio() <= 0)
         {
-            
-            gameoverText.text = "GAMEOVER";
+            if(homeBase.getHpRatio() <= 0)
+            {
+                homeBase.upgradeImage(0);
+                gameoverText.text = "GAMEOVER";
+            }
+
+            if(awayBase.getHpRatio() <= 0)
+            {
+                awayBase.upgradeImage(1);
+                gameoverText.text = "VICTORY";
+            }
             restartButton.gameObject.SetActive(true);
             Time.timeScale = 0f;
 
         }
-        if (awayBase.getHpRatio() <= 0)
+        else
         {
-            
-            gameoverText.text = "VICTORY";
-            restartButton.gameObject.SetActive(true);
-            Time.timeScale = 0f;
+            unitCoolBar.value = curTime / MaxTime;
         }
-        unitCoolBar.value = curTime / MaxTime;
     }
 
     IEnumerator StartIncrementing()

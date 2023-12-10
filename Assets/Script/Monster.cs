@@ -8,10 +8,16 @@ public class Monster : Unit
 
     public override void Setting(UnitInfo info, StateController controller, bool isRightTeam)
     {
+        this.gameObject.name = info.name;
         base.Setting(info, controller, isRightTeam);
         this.stateController.StateLinkEnterAction(StudentStateControler.walkState, setWalkAnim);
         this.stateController.StateLinkUpdateAction(StudentStateControler.attackState, Attack);
         this.stateController.StateLinkEnterAction(StudentStateControler.attackState, setAttackReadyAnim);
+        this.gameObject.AddComponent<BoxCollider2D>().isTrigger = true;
+        if (!getAnimationKey().Equals("Error"))
+        {
+            this.spriteRenderer.sprite = null;
+        }
     }
 
     // Start is called before the first frame update
@@ -85,9 +91,9 @@ public class Monster : Unit
 
         if (attackCoolTime <= 0 )
         {
+            this.animator.Play(getAnimationKey() + "Attack");
             base.Attack();
             Debug.Log("Attack!!!");
-            this.animator.Play(getAnimationKey() + "Attack");
             attackCoolTime = 1;
         }
         else if(attackCoolTime < 0.5f)
