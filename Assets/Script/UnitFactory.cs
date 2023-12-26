@@ -91,12 +91,13 @@ public class UnitFactory : MonoBehaviour
                     Sprite bulletSprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f), 1000);
 
                     data.Add(tmp[0], new UnitInfo(tmp[0], sprite, int.Parse(tmp[2]), int.Parse(tmp[3]), tmp[4] == "Near" ? true : false, float.Parse(tmp[5]), float.Parse(tmp[6]), float.Parse(tmp[7]), int.Parse(tmp[8]), int.Parse(tmp[9]), bulletSprite));
+                    Debug.Log(tmp[8]);
                 }
             }
 
             if (data.ContainsKey(tmp[0]))
             {
-                Debug.Log(tmp[0] + " " + data[tmp[0]]);
+                Debug.Log(tmp[0] + " " + data[tmp[0]].cost);
             }
         }
     }
@@ -197,7 +198,7 @@ public class UnitFactory : MonoBehaviour
         {
             return -1;
         }
-
+        Debug.Log(unitName + "'s cost : " + data[unitName].cost);
         return data[unitName].cost;
     }
 }
